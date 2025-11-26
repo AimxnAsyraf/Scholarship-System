@@ -36,33 +36,33 @@ def apply_fuzzy_logic(df):
     data = df.copy()
     
     # --- Income ---
-    data['Fuzzy_Income_Low'] = triangular_membership(data['Household Income'], 0, 0, 12000)  #Min: 12000
-    data['Fuzzy_Income_Med'] = triangular_membership(data['Household Income'], 6000, 12000, 60000) #Med: 60000
-    data['Fuzzy_Income_High'] = trapezoidal_membership(data['Household Income'], 12000, 345000, 350000, 350000) #Max: 350000
+    data['Fuzzy_Income_Low'] = triangular_membership(data['Household Income'], -1, 0, 12000)  #Min: 12000
+    data['Fuzzy_Income_Med'] = triangular_membership(data['Household Income'], 6000, 12000, 70000) #Med: 70000
+    data['Fuzzy_Income_High'] = trapezoidal_membership(data['Household Income'], 12000, 27000, 280000, 290000) #Max: 290000
     
     # --- SPM (Number of As) ---
-    data['Fuzzy_SPM_Low'] = triangular_membership(data['SPM Result (As)'], 0, 0, 4) #Min: 4
-    data['Fuzzy_SPM_Med'] = triangular_membership(data['SPM Result (As)'], 2, 4, 6) #Med:6
-    data['Fuzzy_SPM_High'] = triangular_membership(data['SPM Result (As)'], 4, 11, 11) #Max: 11
+    data['Fuzzy_SPM_Low'] = triangular_membership(data['SPM Result (As)'], -1, 0, 6) #Min: 4
+    data['Fuzzy_SPM_Med'] = triangular_membership(data['SPM Result (As)'], 3, 7, 10) #Med:6
+    data['Fuzzy_SPM_High'] = trapezoidal_membership(data['SPM Result (As)'], 7, 10, 12, 15) #Max: 15
     
     # --- Unified CGPA Foundation, Undergraduate, STPM, Matriculation ---
     # This avoids the "Zero Problem" where missing STPM is seen as "Low Score"
     col = 'CGPA_Unified'
-    data['Fuzzy_CGPA_Low'] = triangular_membership(data[col], 0.0, 0.0, 2.0)
-    data['Fuzzy_CGPA_Med'] = triangular_membership(data[col], 1.0, 2.0, 3.0)
-    data['Fuzzy_CGPA_High'] = triangular_membership(data[col], 2.0, 4.0, 4.0)
+    data['Fuzzy_CGPA_Low'] = trapezoidal_membership(data[col], -1, 0.0, 2.5, 3.0)
+    data['Fuzzy_CGPA_Med'] = triangular_membership(data[col], 2.5, 3.0, 3.5)
+    data['Fuzzy_CGPA_High'] = trapezoidal_membership(data[col], 3.3, 3.75, 4.0, 5.0)
 
     # --- A-Level (Separate, but handled carefully) ---
     # We MASK zeros so they don't count as "Low"
     # alevel_mask = (data['A-Level (As)'] > 0).astype(int)
-    data['Fuzzy_ALevel_Low'] = triangular_membership(data['A-Level (As)'], 0, 0, 2) #Min: 2
+    data['Fuzzy_ALevel_Low'] = triangular_membership(data['A-Level (As)'], -1, 0, 2) #Min: 2
     data['Fuzzy_ALevel_Med'] = triangular_membership(data['A-Level (As)'], 1, 2, 3) #Med: 3
-    data['Fuzzy_ALevel_High'] = triangular_membership(data['A-Level (As)'], 2, 4, 4) #Max: 4
+    data['Fuzzy_ALevel_High'] = trapezoidal_membership(data['A-Level (As)'], 2, 3, 4, 5) #Max: 4
     
     # --- Co-curricular Score ---
-    data['Fuzzy_CoCurr_Low'] = triangular_membership(data['Co-curricular Score'], 0, 0, 30) #Min: 30
-    data['Fuzzy_CoCurr_Med'] = triangular_membership(data['Co-curricular Score'], 15, 30, 50) #Med: 50
-    data['Fuzzy_CoCurr_High'] = triangular_membership(data['Co-curricular Score'], 30, 100, 100) #Max: 100
+    data['Fuzzy_CoCurr_Low'] = triangular_membership(data['Co-curricular Score'], -1, 0, 50) #Min: 30
+    data['Fuzzy_CoCurr_Med'] = triangular_membership(data['Co-curricular Score'], 40, 60, 80) #Med: 50
+    data['Fuzzy_CoCurr_High'] = trapezoidal_membership(data['Co-curricular Score'], 70, 90, 100, 120) #Max: 100
     
     return data
 
@@ -160,7 +160,7 @@ def load_data(student_path, scholarship_path):
 # ==========================================
 if __name__ == "__main__":
     print("Loading data and training models...")
-    df_students, df_scholarships = load_data('../dataset/FINAL_STUDENTS.csv', '../dataset/SCHOLARSHIPS_2.csv')
+    df_students, df_scholarships = load_data('../dataset/DUMMY_FINAL_STUDENTS.csv', '../dataset/SCHOLARSHIPS_2.csv')
     
     # Merge for Training
     df_train = pd.merge(df_students, df_scholarships, 

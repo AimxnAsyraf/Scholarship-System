@@ -1,18 +1,66 @@
 [
   {
-    "Scholarship": "Shell Malaysia Scholarship",
+    "Scholarship": "MARA Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "61.39%",
-      "Raw_Score": 61.38998398770169,
+      "Success_Probability": "5.35%",
+      "Raw_Score": 5.346168052067144,
+      "Eligibility": "Ineligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "63.53%",
+      "Raw_Score": 63.53221326487198,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "34.44%",
+    "Recommendation": "Recommended"
+  },
+  {
+    "Scholarship": "Gamuda Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "62.52%",
+      "Raw_Score": 62.51753111661411,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "21.43%",
-      "Raw_Score": 21.425085921102976,
+      "Success_Probability": "0.99%",
+      "Raw_Score": 0.9896715547925794,
       "Eligibility": "Ineligible"
     },
-    "Average_Probability": "41.41%",
+    "Average_Probability": "31.75%",
+    "Recommendation": "Recommended"
+  },
+  {
+    "Scholarship": "Shell Malaysia Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "46.02%",
+      "Raw_Score": 46.02175870692919,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "6.48%",
+      "Raw_Score": 6.4842924924030285,
+      "Eligibility": "Ineligible"
+    },
+    "Average_Probability": "26.25%",
+    "Recommendation": "Recommended"
+  },
+  {
+    "Scholarship": "Yayasan Khazanah Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "41.64%",
+      "Raw_Score": 41.64267112361894,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "9.71%",
+      "Raw_Score": 9.707424852942076,
+      "Eligibility": "Ineligible"
+    },
+    "Average_Probability": "25.68%",
     "Recommendation": "Recommended"
   }
 ]

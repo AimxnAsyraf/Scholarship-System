@@ -263,12 +263,12 @@ def predict_with_both_models(student_profile):
 if __name__ == "__main__":
     # Example student profile
     new_student = {
-        'Age': 20,
-        'Race': 'Chinese',
-        'Household Income': 5000.0,
-        'SPM Result (As)': 8,
-        'Co-curricular Score': 50,
-        'Field of Study': 'Computer Science',
+        'Age': 19,
+        'Race': 'Malay',
+        'Household Income': 2000.0,
+        'SPM Result (As)': 7,
+        'Co-curricular Score': 100,
+        'Field of Study': 'Engineering',
         'STPM CGPA': 0.0,
         'Matriculation CGPA': 0.0,
         'Foundation CGPA': 0.0,
