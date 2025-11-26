@@ -105,7 +105,7 @@ def load_and_prep_data(filepath):
 
 def train_pipeline():
     print("Loading data...")
-    X, y = load_and_prep_data('scholarship_dataset.csv')
+    X, y = load_and_prep_data('../dataset/scholarship_dataset.csv')
 
     # Split Data
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)
@@ -181,7 +181,7 @@ def train_pipeline():
     # ---------------------------------------------------------
     
     # Create directory if not exists
-    save_dir = 'fastapi_service/model'
+    save_dir = '../backend/model'
     os.makedirs(save_dir, exist_ok=True)
     save_path = os.path.join(save_dir, 'scholarship_pipeline.joblib')
     

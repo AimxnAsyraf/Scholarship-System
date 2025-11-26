@@ -14,21 +14,6 @@ def home():
     """Home page"""
     return render_template('home.html')
 
-@app.route('/scholarships')
-def scholarships():
-    """Scholarships listing page"""
-    return render_template('scholarships.html')
-
-# @app.route('/apply')
-# def apply():
-#     """Application form page"""
-#     return render_template('apply.html')
-
-# @app.route('/status')
-# def check_status():
-#     """Check application status page"""
-#     return render_template('status.html')
-
 @app.route('/predict')
 def predict():
     """Eligibility prediction page"""

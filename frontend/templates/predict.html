@@ -9,40 +9,164 @@
 <body>
     <nav class="navbar">
         <div class="container">
-            <h1 class="logo">Scholarship System</h1>
+            <h1 class="logo">🎓 Scholarship System</h1>
             <ul class="nav-links">
                 <li><a href="/">Home</a></li>
-                <!-- <li><a href="/scholarships">Scholarships</a></li>
-                <li><a href="/apply">Apply</a></li>
-                <li><a href="/predict">Check Eligibility</a></li>
-                <li><a href="/status">Status</a></li> -->
+                <li><a href="/predict" class="active">Check Eligibility</a></li>
             </ul>
         </div>
     </nav>
 
     <main class="container">
         <h2>Check Scholarship Eligibility</h2>
+        <div class="form-progress">
+            <div class="progress-bar" id="form-progress"></div>
+        </div>
         <form id="predict-form" class="form">
             <div class="form-group">
-                <label for="gpa">CGPA (0.0 - 4.0):</label>
-                <input type="number" id="gpa" name="gpa" step="0.01" min="0" max="4.0" required>
+                <label for="age">Age:</label>
+                <input type="number" id="age" name="age" min="10" max="100" placeholder="e.g., 18" required>
+                <small class="help-text">Enter your current age (10-100 years)</small>
             </div>
 
             <div class="form-group">
-                <label for="income">Monthly Family Income (RM):</label>
-                <input type="number" id="income" name="income" min="0" required>
+                <label for="race">Race:</label>
+                <select id="race" name="race" required>
+                    <option value="">Select your race...</option>
+                    <option value="Malay">Malay</option>
+                    <option value="Chinese">Chinese</option>
+                    <option value="Indian">Indian</option>
+                    <option value="Bumiputera Sabah / Sarawak">Bumiputera Sabah / Sarawak</option>
+                </select>
+                <small class="help-text">Select your ethnic background</small>
             </div>
 
             <div class="form-group">
-                <label for="extracurricular_score">Extracurricular Score (0-100):</label>
-                <input type="number" id="extracurricular_score" name="extracurricular_score" min="0" max="100" required>
+                <label for="level_of_study">Level of Study:</label>
+                <select id="level_of_study" name="level_of_study" required>
+                    <option value="">Select your level...</option>
+                    <option value="SPM">SPM</option>
+                    <option value="STPM">STPM</option>
+                    <option value="Matriculation">Matriculation</option>
+                    <option value="A Level">A Level</option>
+                    <option value="Foundation">Foundation</option>
+                    <option value="Undergraduate">Undergraduate</option>
+                </select>
+                <small class="help-text">Choose your current education level</small>
             </div>
 
-            <button type="submit" class="btn btn-primary">Check Eligibility</button>
+            <!-- Academic Performance fields (dynamic based on level) -->
+            <div id="spm-field" class="form-group" style="display: none;">
+                <label for="spm_as">Number of A's:</label>
+                <input type="number" id="spm_as" name="spm_as" min="0" max="20" placeholder="e.g., 8">
+                <small class="help-text">Enter total number of A grades obtained (e.g., 8 A's = 8)</small>
+            </div>
+
+            <div id="cgpa-field" class="form-group" style="display: none;">
+                <label for="cgpa">CGPA (0.0 - 4.0):</label>
+                <input type="number" id="cgpa" name="cgpa" step="0.01" min="0" max="4.0" placeholder="e.g., 3.75">
+                <small class="help-text">Enter your current CGPA on a 4.0 scale</small>
+            </div>
+
+            <div id="alevel-field" class="form-group" style="display: none;">
+                <label for="alevel_stars">Number of A*:</label>
+                <input type="number" id="alevel_stars" name="alevel_stars" min="0" max="10" placeholder="e.g., 4">
+                <small class="help-text">Enter total number of A* grades (highest distinction)</small>
+            </div>
+            
+            <div class="form-group">
+                <label for="field_of_study">Field of Study:</label>
+                <select id="field_of_study" name="field_of_study" required>
+                    <option value="">Select your field...</option>
+                    <option value="Engineering">Engineering</option>
+                    <option value="Computer Science and IT">Computer Science and IT</option>
+                    <option value="Business and Finance">Business and Finance</option>
+                    <option value="Medicine and Healthcare">Medicine and Healthcare</option>
+                    <option value="Science">Science</option>
+                    <option value="Law and Social Sciences">Law and Social Sciences</option>
+                </select>
+                <small class="help-text">Select your area of study or intended field</small>
+            </div>
+
+            <div class="form-group">
+                <label for="household_income">Yearly Household Income (RM):</label>
+                <input type="number" id="household_income" name="household_income" min="0" step="1000" placeholder="e.g., 50000" required>
+                <small class="help-text">Enter total annual family income in Ringgit Malaysia</small>
+            </div>
+
+            <div class="form-group">
+                <label for="curricular_type">Curricular Details: <span class="optional-tag">(Optional)</span></label>
+                <select id="curricular_type" name="curricular_type">
+                    <option value="">Select type...</option>
+                    <option value="club">Club</option>
+                    <option value="activities">Activities</option>
+                </select>
+                <small class="help-text">Add your club memberships or activity achievements</small>
+            </div>
+
+            <!-- Club fields (hidden by default) -->
+            <div id="club-fields" class="form-group" style="display: none;">
+                <label for="club_name">Club Name:</label>
+                <input type="text" id="club_name" name="club_name" placeholder="e.g., Debate Club, Science Society">
+                <small class="help-text">Enter the name of the club or society</small>
+                
+                <label for="position_held">Position Held:</label>
+                <select id="position_held" name="position_held">
+                    <option value="">Select position...</option>
+                    <option value="President">President</option>
+                    <option value="Vice President">Vice President</option>
+                    <option value="Secretary">Secretary</option>
+                    <option value="Treasurer">Treasurer</option>
+                    <option value="Committee">Committee</option>
+                    <option value="Member">Member</option>
+                </select>
+                <small class="help-text">Select your leadership role in the club</small>
+                
+                <button type="button" id="add-club-btn" class="btn btn-secondary">+ Add Club</button>
+            </div>
+
+            <!-- Activities fields (hidden by default) -->
+            <div id="activities-fields" class="form-group" style="display: none;">
+                <label for="activity_name">Activity Name:</label>
+                <input type="text" id="activity_name" name="activity_name" placeholder="e.g., Science Fair, Debate Competition">
+                <small class="help-text">Enter the competition or activity name</small>
+                
+                <label for="activity_level">Level:</label>
+                <select id="activity_level" name="activity_level">
+                    <option value="">Select level...</option>
+                    <option value="International">International</option>
+                    <option value="National">National</option>
+                    <option value="State">State</option>
+                    <option value="District">District</option>
+                    <option value="School">School</option>
+                </select>
+                <small class="help-text">Select highest achievement level (International is best)</small>
+                
+                <button type="button" id="add-activity-btn" class="btn btn-secondary">+ Add Activity</button>
+            </div>
+
+            <!-- Display added curricular items -->
+            <div id="curricular-list" class="curricular-list" style="display: none;">
+                <h4>Added Items:</h4>
+                <ul id="curricular-items"></ul>
+            </div>
+
+            <button type="submit" class="btn btn-primary" id="submit-btn">
+                <span class="btn-text">Check Eligibility</span>
+                <span class="btn-loader" style="display: none;">
+                    <span class="spinner"></span> Checking...
+                </span>
+            </button>
         </form>
-
-        <div id="result" class="result"></div>
     </main>
+
+    <!-- Modal Popup for Results -->
+    <div id="result-modal" class="modal" style="display: none;">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div id="result" class="result"></div>
+        </div>
+    </div>
 
     <footer>
         <p>AI-Powered Scholarship Eligibility System | AI Project</p>
