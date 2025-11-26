@@ -16,6 +16,7 @@ app = FastAPI(
 
 # Load ML Model
 MODEL_PATH = os.path.join(os.path.dirname(__file__), 'model', 'scholarship_pipeline.joblib')
+#Current situation
 model = None
 
 try:
@@ -101,7 +102,7 @@ def predict_eligibility(data: PredictionRequest):
     try:
         # If model exists, use it; otherwise use dummy logic
         if model is not None:
-            # Prepare input data as DataFrame (matching training format)
+            # Input data daripada form frontend
             input_data = pd.DataFrame({
                 'CGPA': [data.cgpa],
                 'Field of Study': [data.field_of_study],

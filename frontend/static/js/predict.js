@@ -205,6 +205,7 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
     }
 
     try {
+        //Load model api utk dptkan response drpd AI model
         const response = await fetch('http://localhost:8000/api/predict', {
             method: 'POST',
             headers: {
