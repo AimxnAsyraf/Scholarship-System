@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Available Scholarships</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">Scholarship System</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <!-- <li><a href="/scholarships">Scholarships</a></li>
+                <li><a href="/apply">Apply</a></li>
+                <li><a href="/predict">Check Eligibility</a></li>
+                <li><a href="/status">Status</a></li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Available Scholarships</h2>
+        <div id="scholarships-list">
+            <p>Loading scholarships...</p>
+        </div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Scholarship System. All rights reserved.</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/scholarships.js') }}"></script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Scholarship System</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">Scholarship System</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <!-- <li><a href="/scholarships">Scholarships</a></li> -->
+                <!-- <li><a href="/apply">Apply</a></li> -->
+                <!-- <li><a href="/predict">Check Eligibility</a></li> -->
+                <!-- <li><a href="/status">Status</a></li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <section class="hero">
+            <h2>Welcome to the Scholarship Eligibility System</h2>
+            <!-- <p>Find and apply for scholarships that match your profile</p> -->
+            <div class="cta-buttons">
+                <a href="/scholarships" class="btn btn-primary">Browse Scholarships</a>
+                <a href="/predict" class="btn btn-secondary">Check Eligibility</a>
+            </div>
+        </section>
+
+        <section class="features">
+            <div class="feature-card">
+                <h3>🎓 Find Scholarships</h3>
+                <p>Browse through available scholarships and find the perfect match for your profile</p>
+            </div>
+            <!-- <div class="feature-card">
+                <h3>📝 Easy Application</h3>
+                <p>Apply to multiple scholarships with our simple and intuitive application process</p>
+            </div> -->
+            <div class="feature-card">
+                <h3>🤖 AI Predictions</h3>
+                <p>Get AI-powered predictions on your scholarship eligibility</p>
+            </div>
+            <!-- <div class="feature-card">
+                <h3>📊 Track Status</h3>
+                <p>Monitor your application status in real-time</p>
+            </div> -->
+        </section>
+    </main>
+
+    <footer>
+        <p>AI-Powered Scholarship Eligibility System | AI Project</p>
+    </footer>
+</body>
+</html>

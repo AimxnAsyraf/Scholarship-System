@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Check Eligibility</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">Scholarship System</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <!-- <li><a href="/scholarships">Scholarships</a></li>
+                <li><a href="/apply">Apply</a></li>
+                <li><a href="/predict">Check Eligibility</a></li>
+                <li><a href="/status">Status</a></li> -->
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Check Scholarship Eligibility</h2>
+        <form id="predict-form" class="form">
+            <div class="form-group">
+                <label for="gpa">CGPA (0.0 - 4.0):</label>
+                <input type="number" id="gpa" name="gpa" step="0.01" min="0" max="4.0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="income">Monthly Family Income (RM):</label>
+                <input type="number" id="income" name="income" min="0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="extracurricular_score">Extracurricular Score (0-100):</label>
+                <input type="number" id="extracurricular_score" name="extracurricular_score" min="0" max="100" required>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Check Eligibility</button>
+        </form>
+
+        <div id="result" class="result"></div>
+    </main>
+
+    <footer>
+        <p>AI-Powered Scholarship Eligibility System | AI Project</p>
+    </footer>
+
+    <script src="{{ url_for('static', filename='js/predict.js') }}"></script>
+</body>
+</html>

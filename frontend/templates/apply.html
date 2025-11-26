@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Apply for Scholarship</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="container">
+            <h1 class="logo">Scholarship System</h1>
+            <ul class="nav-links">
+                <li><a href="/">Home</a></li>
+                <li><a href="/scholarships">Scholarships</a></li>
+                <li><a href="/apply">Apply</a></li>
+                <li><a href="/predict">Check Eligibility</a></li>
+                <li><a href="/status">Status</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <main class="container">
+        <h2>Scholarship Application</h2>
+        <form id="application-form" class="form">
+            <div class="form-group">
+                <label for="student_name">Full Name:</label>
+                <input type="text" id="student_name" name="student_name" required>
+            </div>
+
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+
+            <div class="form-group">
+                <label for="gpa">GPA:</label>
+                <input type="number" id="gpa" name="gpa" step="0.01" min="0" max="4.0" required>
+            </div>
+
+            <div class="form-group">
+                <label for="scholarship_id">Scholarship:</label>
+                <select id="scholarship_id" name="scholarship_id" required>
+                    <option value="">Select a scholarship...</option>
+                </select>
+            </div>
+
+            <button type="submit" class="btn btn-primary">Submit Application</button>
+        </form>
+
+        <div id="message" class="message"></div>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Scholarship System. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Load scholarships for dropdown
+        fetch('http://localhost:8000/api/scholarships')
+            .then(response => response.json())
+            .then(data => {
+                const select = document.getElementById('scholarship_id');
+                data.forEach(scholarship => {
+                    const option = document.createElement('option');
+                    option.value = scholarship.id;
+                    option.textContent = `${scholarship.name} - $${scholarship.amount}`;
+                    select.appendChild(option);
+                });
+            });
+
+        // Handle form submission
+        document.getElementById('application-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const formData = {
+                student_name: document.getElementById('student_name').value,
+                email: document.getElementById('email').value,
+                gpa: parseFloat(document.getElementById('gpa').value),
+                scholarship_id: parseInt(document.getElementById('scholarship_id').value)
+            };
+
+            try {
+                const response = await fetch('http://localhost:8000/api/applications', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify(formData)
+                });
+
+                const result = await response.json();
+                const messageDiv = document.getElementById('message');
+                
+                if (response.ok) {
+                    messageDiv.className = 'message success';
+                    messageDiv.textContent = `Application submitted successfully! Application ID: ${result.id}`;
+                    document.getElementById('application-form').reset();
+                } else {
+                    messageDiv.className = 'message error';
+                    messageDiv.textContent = 'Failed to submit application. Please try again.';
+                }
+            } catch (error) {
+                document.getElementById('message').className = 'message error';
+                document.getElementById('message').textContent = 'Error: ' + error.message;
+            }
+        });
+    </script>
+</body>
+</html>
