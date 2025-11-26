@@ -94,27 +94,6 @@ def home():
         "docs": "/docs"
     }
 
-@app.get("/api/scholarships", response_model=List[Scholarship])
-def get_scholarships():
-    """Get all available scholarships"""
-    # TODO: Implement database query
-    scholarships = [
-        {
-            "id": 1,
-            "name": "Merit Scholarship",
-            "amount": 5000.0,
-            "description": "For students with excellent academic performance"
-        },
-        {
-            "id": 2,
-            "name": "Need-Based Scholarship",
-            "amount": 3000.0,
-            "description": "For students with financial need"
-        }
-    ]
-    return scholarships
-
-
 @app.post("/api/predict", response_model=PredictionResponse)
 def predict_eligibility(data: PredictionRequest):
     """Predict scholarship eligibility using ML model (or dummy logic if model not available)"""

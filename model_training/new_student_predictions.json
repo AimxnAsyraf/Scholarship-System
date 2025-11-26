@@ -1,0 +1,18 @@
+[
+  {
+    "Scholarship": "Shell Malaysia Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "61.39%",
+      "Raw_Score": 61.38998398770169,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "21.43%",
+      "Raw_Score": 21.425085921102976,
+      "Eligibility": "Ineligible"
+    },
+    "Average_Probability": "41.41%",
+    "Recommendation": "Recommended"
+  }
+]
