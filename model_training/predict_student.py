@@ -9,6 +9,7 @@ from gemini_train import (
     clean_currency
 )
 
+#Predict gune salah satu model (hybrid/baseline)
 def predict_scholarship_match(student_profile, model_path='hybrid_model.pkl', use_hybrid=True):
     """
     Load trained model and predict scholarship success probability for a student.
@@ -131,7 +132,7 @@ def predict_scholarship_match(student_profile, model_path='hybrid_model.pkl', us
     
     return final_results
 
-
+#Predict guna dua dua model
 def predict_with_both_models(student_profile):
     """
     Predict using both Hybrid and Baseline models for comparison.
@@ -263,16 +264,17 @@ def predict_with_both_models(student_profile):
 if __name__ == "__main__":
     # Example student profile
     new_student = {
+        #Payload utk predict outcome
         'Age': 19,
         'Race': 'Malay',
-        'Household Income': 2000.0,
-        'SPM Result (As)': 7,
+        'Household Income': 100000,
+        'SPM Result (As)': 8,
         'Co-curricular Score': 100,
         'Field of Study': 'Engineering',
         'STPM CGPA': 0.0,
         'Matriculation CGPA': 0.0,
         'Foundation CGPA': 0.0,
-        'A-Level (As)': 0.0,
+        'A-Level (As)': 4,
         'UG CGPA': 0.0
     }
     

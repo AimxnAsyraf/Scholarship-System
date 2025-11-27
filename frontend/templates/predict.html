@@ -26,7 +26,7 @@
             <div class="form-group">
                 <label for="age">Age:</label>
                 <input type="number" id="age" name="age" min="10" max="100" placeholder="e.g., 18" required>
-                <small class="help-text">Enter your current age (10-100 years)</small>
+                <small class="help-text">Enter your current age (10-50 years)</small>
             </div>
 
             <div class="form-group">
@@ -43,7 +43,7 @@
 
             <div class="form-group">
                 <label for="level_of_study">Level of Study:</label>
-                <select id="level_of_study" name="level_of_study" required>
+                <select id="level_of_study" name="level_of_study">
                     <option value="">Select your level...</option>
                     <option value="SPM">SPM</option>
                     <option value="STPM">STPM</option>
@@ -52,7 +52,7 @@
                     <option value="Foundation">Foundation</option>
                     <option value="Undergraduate">Undergraduate</option>
                 </select>
-                <small class="help-text">Choose your current education level</small>
+                <small class="help-text">Add your education levels (SPM must be added first)</small>
             </div>
 
             <!-- Academic Performance fields (dynamic based on level) -->
@@ -60,18 +60,27 @@
                 <label for="spm_as">Number of A's:</label>
                 <input type="number" id="spm_as" name="spm_as" min="0" max="20" placeholder="e.g., 8">
                 <small class="help-text">Enter total number of A grades obtained (e.g., 8 A's = 8)</small>
+                <button type="button" id="add-spm-btn" class="btn btn-secondary">+ Add SPM Result</button>
             </div>
 
             <div id="cgpa-field" class="form-group" style="display: none;">
                 <label for="cgpa">CGPA (0.0 - 4.0):</label>
                 <input type="number" id="cgpa" name="cgpa" step="0.01" min="0" max="4.0" placeholder="e.g., 3.75">
                 <small class="help-text">Enter your current CGPA on a 4.0 scale</small>
+                <button type="button" id="add-cgpa-btn" class="btn btn-secondary">+ Add Level</button>
             </div>
 
             <div id="alevel-field" class="form-group" style="display: none;">
                 <label for="alevel_stars">Number of A*:</label>
                 <input type="number" id="alevel_stars" name="alevel_stars" min="0" max="10" placeholder="e.g., 4">
                 <small class="help-text">Enter total number of A* grades (highest distinction)</small>
+                <button type="button" id="add-alevel-btn" class="btn btn-secondary">+ Add A-Level Result</button>
+            </div>
+            
+            <!-- Display added education levels -->
+            <div id="education-list" class="curricular-list" style="display: none;">
+                <h4>Your Education History:</h4>
+                <ul id="education-items"></ul>
             </div>
             
             <div class="form-group">

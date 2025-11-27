@@ -889,6 +889,137 @@ body {
     padding-right: 0.5rem;
 }
 
+/* Model Breakdown Styles */
+.model-breakdown {
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    padding: 1rem;
+    border-radius: 10px;
+    margin: 1rem 0;
+    border: 1px solid #dee2e6;
+}
+
+.model-detail {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0.5rem 0;
+    font-size: 0.9rem;
+    gap: 10px;
+}
+
+.model-detail:not(:last-child) {
+    border-bottom: 1px solid #dee2e6;
+}
+
+/* Highlight chosen model */
+.model-detail.chosen {
+    background: linear-gradient(135deg, #fff3cd 0%, #fff9e6 100%);
+    border: 2px solid #ffc107;
+    border-radius: 6px;
+    padding: 0.7rem;
+    margin: 0.3rem -0.3rem;
+}
+
+.model-detail.average {
+    margin-top: 0.5rem;
+    padding-top: 0.8rem;
+    border-top: 2px solid #3498db;
+    font-weight: 600;
+}
+
+.model-label {
+    color: #495057;
+    font-weight: 500;
+    flex: 0 0 auto;
+}
+
+.model-value {
+    color: #3498db;
+    font-weight: 600;
+    font-size: 1rem;
+    flex: 0 0 auto;
+}
+
+.model-detail.average .model-value {
+    color: #2ecc71;
+    font-size: 1.1rem;
+}
+
+/* Eligibility Badges */
+.eligibility-badge {
+    padding: 4px 12px;
+    border-radius: 12px;
+    font-size: 0.75em;
+    font-weight: 600;
+    text-transform: uppercase;
+    flex: 0 0 auto;
+}
+
+.eligibility-badge.eligible {
+    background: #d1e7dd;
+    color: #0f5132;
+    border: 1px solid #0f5132;
+}
+
+.eligibility-badge.ineligible {
+    background: #f8d7da;
+    color: #842029;
+    border: 1px solid #842029;
+}
+
+/* Chosen Model Info */
+.chosen-model-info {
+    margin-top: 10px;
+    padding: 8px 12px;
+    background: linear-gradient(135deg, #fff3cd 0%, #ffeaa7 100%);
+    border-left: 4px solid #ffc107;
+    border-radius: 4px;
+    font-size: 0.9em;
+    color: #856404;
+    text-align: center;
+}
+
+.scholarship-probability-card.with-model-predictions {
+    background: linear-gradient(135deg, #ffffff 0%, #f0f8ff 100%);
+    border-color: #3498db;
+}
+
+.scholarship-probability-card.with-model-predictions::before {
+    background: linear-gradient(90deg, #3498db, #9b59b6, #2ecc71);
+}
+
+/* Model Info Badge */
+.model-info-badge {
+    display: inline-block;
+    padding: 0.5rem 1rem;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin: 1rem 0;
+    box-shadow: 0 4px 6px rgba(102, 126, 234, 0.3);
+}
+
+.model-info-badge.dummy {
+    background: linear-gradient(135deg, #95a5a6 0%, #7f8c8d 100%);
+    box-shadow: 0 4px 6px rgba(149, 165, 166, 0.3);
+}
+
+.scholarships-title {
+    margin-top: 1.5rem;
+    margin-bottom: 0.5rem;
+    color: #2c3e50;
+    font-size: 1.3rem;
+}
+
+.scholarships-subtitle {
+    color: #7f8c8d;
+    font-size: 0.9rem;
+    margin-bottom: 1.5rem;
+    font-style: italic;
+}
+
 .prediction-result.eligible {
     border-left: 5px solid #27ae60;
 }

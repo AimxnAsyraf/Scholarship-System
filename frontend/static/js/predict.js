@@ -1,5 +1,7 @@
-// Store curricular items
+// Store curricular items and education levels
 let curricularItems = [];
+let educationLevels = [];
+let hasSPM = false; // Track if SPM has been added
 
 // Form Progress Tracking
 function updateFormProgress() {
@@ -49,23 +51,166 @@ document.getElementById('level_of_study').addEventListener('change', function() 
     cgpaField.style.display = 'none';
     alevelField.style.display = 'none';
     
-    // Clear required attributes
-    document.getElementById('spm_as').removeAttribute('required');
-    document.getElementById('cgpa').removeAttribute('required');
-    document.getElementById('alevel_stars').removeAttribute('required');
+    // Check if trying to add non-SPM level first
+    if (level && level !== 'SPM' && !hasSPM) {
+        alert('Please add SPM result first before adding other education levels');
+        this.value = '';
+        return;
+    }
     
-    // Show relevant field and set required
+    // Show relevant field
     if (level === 'SPM') {
         spmField.style.display = 'block';
-        document.getElementById('spm_as').setAttribute('required', 'required');
     } else if (level === 'A Level') {
         alevelField.style.display = 'block';
-        document.getElementById('alevel_stars').setAttribute('required', 'required');
     } else if (level === 'STPM' || level === 'Matriculation' || level === 'Foundation' || level === 'Undergraduate') {
         cgpaField.style.display = 'block';
-        document.getElementById('cgpa').setAttribute('required', 'required');
     }
 });
+
+// Add SPM result
+document.getElementById('add-spm-btn').addEventListener('click', function() {
+    const spmAs = document.getElementById('spm_as').value.trim();
+    
+    if (!spmAs || spmAs < 0 || spmAs > 20) {
+        alert('Please enter a valid number of A\'s (0-20)');
+        return;
+    }
+    
+    // Check if SPM already added
+    if (hasSPM) {
+        alert('SPM result has already been added');
+        return;
+    }
+    
+    educationLevels.push({
+        level: 'SPM',
+        spm_as: parseInt(spmAs)
+    });
+    
+    hasSPM = true;
+    updateEducationList();
+    
+    // Clear inputs and hide field
+    document.getElementById('spm_as').value = '';
+    document.getElementById('spm-field').style.display = 'none';
+    document.getElementById('level_of_study').value = '';
+});
+
+// Add CGPA-based level
+document.getElementById('add-cgpa-btn').addEventListener('click', function() {
+    const level = document.getElementById('level_of_study').value;
+    const cgpa = document.getElementById('cgpa').value.trim();
+    
+    if (!cgpa || cgpa < 0 || cgpa > 4.0) {
+        alert('Please enter a valid CGPA (0.0-4.0)');
+        return;
+    }
+    
+    // Check if this level already added
+    if (educationLevels.some(item => item.level === level)) {
+        alert(`${level} result has already been added`);
+        return;
+    }
+    
+    educationLevels.push({
+        level: level,
+        cgpa: parseFloat(cgpa)
+    });
+    
+    updateEducationList();
+    
+    // Clear inputs and hide field
+    document.getElementById('cgpa').value = '';
+    document.getElementById('cgpa-field').style.display = 'none';
+    document.getElementById('level_of_study').value = '';
+});
+
+// Add A-Level result
+document.getElementById('add-alevel-btn').addEventListener('click', function() {
+    const alevelStars = document.getElementById('alevel_stars').value.trim();
+    
+    if (!alevelStars || alevelStars < 0 || alevelStars > 10) {
+        alert('Please enter a valid number of A* (0-10)');
+        return;
+    }
+    
+    // Check if A-Level already added
+    if (educationLevels.some(item => item.level === 'A Level')) {
+        alert('A-Level result has already been added');
+        return;
+    }
+    
+    educationLevels.push({
+        level: 'A Level',
+        alevel_stars: parseInt(alevelStars)
+    });
+    
+    updateEducationList();
+    
+    // Clear inputs and hide field
+    document.getElementById('alevel_stars').value = '';
+    document.getElementById('alevel-field').style.display = 'none';
+    document.getElementById('level_of_study').value = '';
+});
+
+// Update the displayed education list
+function updateEducationList() {
+    const listContainer = document.getElementById('education-list');
+    const itemsList = document.getElementById('education-items');
+    
+    if (educationLevels.length === 0) {
+        listContainer.style.display = 'none';
+        updateFormProgress();
+        return;
+    }
+    
+    listContainer.style.display = 'block';
+    itemsList.innerHTML = '';
+    
+    educationLevels.forEach((item, index) => {
+        const li = document.createElement('li');
+        let displayText = `<strong>${item.level}:</strong> `;
+        
+        if (item.level === 'SPM') {
+            displayText += `${item.spm_as} A's`;
+        } else if (item.level === 'A Level') {
+            displayText += `${item.alevel_stars} A*`;
+        } else {
+            displayText += `CGPA ${item.cgpa}`;
+        }
+        
+        // SPM cannot be removed if other education levels exist
+        const isSPMWithOthers = (item.level === 'SPM' && educationLevels.length > 1);
+        const removeBtn = isSPMWithOthers ? 
+            `<span class="required-badge">Required (Remove other levels first)</span>` :
+            `<button type="button" class="btn-remove" onclick="removeEducation(${index})">Remove</button>`;
+        
+        li.innerHTML = displayText + ' ' + removeBtn;
+        itemsList.appendChild(li);
+    });
+    
+    updateFormProgress();
+}
+
+// Remove education level from list
+function removeEducation(index) {
+    const item = educationLevels[index];
+    
+    // SPM cannot be removed if other education levels exist
+    if (item.level === 'SPM' && educationLevels.length > 1) {
+        alert('Cannot remove SPM while other education levels exist. Remove other levels first.');
+        return;
+    }
+    
+    // If it's SPM and it's the only item, still allow removal but reset the flag
+    if (item.level === 'SPM') {
+        hasSPM = false;
+    }
+    
+    educationLevels.splice(index, 1);
+    updateEducationList();
+}
 
 // Handle dynamic form fields based on curricular type
 document.getElementById('curricular_type').addEventListener('change', function() {
@@ -170,6 +315,19 @@ function removeItem(index) {
 document.getElementById('predict-form').addEventListener('submit', async (e) => {
     e.preventDefault();
     
+    // Check if education levels have been added
+    if (educationLevels.length === 0) {
+        alert('Please add at least your SPM result to proceed');
+        return;
+    }
+    
+    // Check if SPM is in the education history
+    const hasSPMInList = educationLevels.some(edu => edu.level === 'SPM');
+    if (!hasSPMInList) {
+        alert('SPM result is required in your education history');
+        return;
+    }
+    
     // Check if at least one curricular item is added
     if (curricularItems.length === 0) {
         alert('Please add at least one club or activity');
@@ -185,24 +343,14 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
     btnLoader.style.display = 'inline-flex';
     
     //Dapatkan value dari form inputs
-    const levelOfStudy = document.getElementById('level_of_study').value;
     const formData = {
         age: parseInt(document.getElementById('age').value),
         race: document.getElementById('race').value,
-        level_of_study: levelOfStudy,
         field_of_study: document.getElementById('field_of_study').value,
         household_income: parseFloat(document.getElementById('household_income').value),
+        education_levels: educationLevels,  // Send all education levels
         curricular_items: curricularItems
     };
-    
-    // Add appropriate academic performance field based on level
-    if (levelOfStudy === 'SPM') {
-        formData.spm_as = parseInt(document.getElementById('spm_as').value);
-    } else if (levelOfStudy === 'A Level') {
-        formData.alevel_stars = parseInt(document.getElementById('alevel_stars').value);
-    } else {
-        formData.cgpa = parseFloat(document.getElementById('cgpa').value);
-    }
 
     try {
         //Load model api utk dptkan response drpd AI model
@@ -220,43 +368,73 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
         
         if (response.ok) {
             // Generate scholarship cards with probability bars
-            const scholarshipCards = result.scholarships.map(scholarship => `
-                <div class="scholarship-probability-card">
-                    <div class="scholarship-header">
-                        <h4>${scholarship.name}</h4>
-                        <span class="eligibility ${scholarship.eligibility_status === 'Eligible' ? 'eligible' : 'not-eligible'}">${scholarship.eligibility_status}</span>
-                    </div>
-                    
-                    <p class="scholarship-description">${scholarship.description}</p>
-                    <div class="probability-container">
-                        <div class="probability-label">
-                            <span>Eligibility Probability</span>
-                            <span class="probability-value">${(scholarship.probability * 100).toFixed(1)}%</span>
+            const scholarshipCards = result.scholarships.map(scholarship => {
+                // Check if model predictions are available (hybrid and baseline probabilities)
+                const hasModelPredictions = scholarship.hybrid_probability && scholarship.baseline_probability;
+                
+                // Generate model breakdown section if available
+                const modelBreakdown = hasModelPredictions ? `
+                    <div class="model-breakdown">
+                        <div class="model-detail ${scholarship.chosen_model === 'Hybrid' ? 'chosen' : ''}">
+                            <span class="model-label">🤖 Hybrid Model:</span>
+                            <span class="model-value">${scholarship.hybrid_probability}</span>
+                            <span class="eligibility-badge ${scholarship.hybrid_eligibility === 'Eligible' ? 'eligible' : 'ineligible'}">${scholarship.hybrid_eligibility}</span>
                         </div>
-                        <div class="probability-bar">
-                            <div class="probability-fill" style="width: ${(scholarship.probability * 100).toFixed(1)}%"></div>
+                        <div class="model-detail ${scholarship.chosen_model === 'Baseline' ? 'chosen' : ''}">
+                            <span class="model-label">📊 Baseline Model:</span>
+                            <span class="model-value">${scholarship.baseline_probability}</span>
+                            <span class="eligibility-badge ${scholarship.baseline_eligibility === 'Eligible' ? 'eligible' : 'ineligible'}">${scholarship.baseline_eligibility}</span>
+                        </div>
+                        <div class="model-detail average">
+                            <span class="model-label">📈 Average:</span>
+                            <span class="model-value">${scholarship.average_probability}</span>
+                        </div>
+                        ${scholarship.chosen_model ? `<div class="chosen-model-info">✨ Using <strong>${scholarship.chosen_model}</strong> model result</div>` : ''}
+                    </div>
+                ` : '';
+                
+                return `
+                    <div class="scholarship-probability-card ${hasModelPredictions ? 'with-model-predictions' : ''}">
+                        <div class="scholarship-header">
+                            <h4>${scholarship.name}</h4>
+                            <span class="eligibility ${scholarship.eligibility_status === 'Eligible' ? 'eligible' : 'not-eligible'}">${scholarship.eligibility_status}</span>
+                        </div>
+                        
+                        <p class="scholarship-description">${scholarship.description}</p>
+                        
+                        ${modelBreakdown}
+                        
+                        <div class="probability-container">
+                            <div class="probability-label">
+                                <span>${hasModelPredictions ? 'Average Success Probability' : 'Eligibility Probability'}</span>
+                                <span class="probability-value">${(scholarship.probability * 100).toFixed(1)}%</span>
+                            </div>
+                            <div class="probability-bar">
+                                <div class="probability-fill" style="width: ${(scholarship.probability * 100).toFixed(1)}%"></div>
+                            </div>
                         </div>
                     </div>
-                </div>
-            `).join('');
+                `;
+            }).join('');
+
+            // Check if any scholarship has model predictions
+            const hasModelPredictions = result.scholarships.some(s => s.hybrid_probability);
+            const modelInfoBadge = hasModelPredictions ? 
+                '<span class="model-info-badge">🤖 AI Models Active</span>' : 
+                '<span class="model-info-badge dummy">📋 Rule-Based Logic</span>';
 
             resultDiv.innerHTML = `
                 <div class="prediction-result ${result.eligible ? 'eligible' : 'not-eligible'}">
-                    <div class="result-header">
-                        <h3>${result.eligible ? '✅ Congratulations!' : '❌ Not Currently Eligible'}</h3>
-                        <p class="status-badge">${result.eligibility_status}</p>
-                    </div>
-                    <div class="result-stats">
-                        <div class="stat-item">
-                            <span class="stat-label">Prediction Score</span>
-                            <span class="stat-value">${result.prediction_score.toFixed(2)} / 2.00</span>
-                        </div>
-                        <div class="stat-item">
-                            <span class="stat-label">Model Confidence</span>
-                            <span class="stat-value">${(result.confidence * 100).toFixed(1)}%</span>
-                        </div>
-                    </div>
-                    <h4 class="scholarships-title">Scholarship Eligibility Probabilities</h4>
+                    <h4 class="scholarships-title">
+                        ${hasModelPredictions ? 
+                            'Matched Scholarships (Average Probability > 30%)' : 
+                            'Scholarship Eligibility Probabilities'}
+                    </h4>
+                    <p class="scholarships-subtitle">
+                        ${hasModelPredictions ? 
+                            'Based on predictions from both Hybrid (Fuzzy Logic + Gradient Boosting) and Baseline (Elastic Net) models' : 
+                            'Based on rule-based matching criteria'}
+                    </p>
                     <div class="scholarships-grid">
                         ${scholarshipCards}
                     </div>

@@ -3,64 +3,112 @@
     "Scholarship": "MARA Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "5.35%",
-      "Raw_Score": 5.346168052067144,
-      "Eligibility": "Ineligible"
-    },
-    "Baseline_Model": {
-      "Success_Probability": "63.53%",
-      "Raw_Score": 63.53221326487198,
+      "Success_Probability": "80.20%",
+      "Raw_Score": 80.19807705586653,
       "Eligibility": "Eligible"
     },
-    "Average_Probability": "34.44%",
+    "Baseline_Model": {
+      "Success_Probability": "89.35%",
+      "Raw_Score": 89.35050002887792,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "84.77%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Yayasan Sime Darby Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "83.15%",
+      "Raw_Score": 83.15023624952876,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "63.44%",
+      "Raw_Score": 63.44164077067367,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "73.30%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Shell Malaysia Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "84.09%",
+      "Raw_Score": 84.08787021788551,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "59.66%",
+      "Raw_Score": 59.65504164186561,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "71.87%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Yayasan Khazanah Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "71.99%",
+      "Raw_Score": 71.98756478078788,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "62.88%",
+      "Raw_Score": 62.878174002404634,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "67.43%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Bank Negara Malaysia Kijang Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "69.69%",
+      "Raw_Score": 69.69174807132654,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "63.63%",
+      "Raw_Score": 63.629716892363604,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "66.66%",
     "Recommendation": "Recommended"
   },
   {
     "Scholarship": "Gamuda Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "62.52%",
-      "Raw_Score": 62.51753111661411,
+      "Success_Probability": "69.66%",
+      "Raw_Score": 69.66317828749125,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "0.99%",
-      "Raw_Score": 0.9896715547925794,
-      "Eligibility": "Ineligible"
+      "Success_Probability": "54.16%",
+      "Raw_Score": 54.160420704255145,
+      "Eligibility": "Eligible"
     },
-    "Average_Probability": "31.75%",
+    "Average_Probability": "61.91%",
     "Recommendation": "Recommended"
   },
   {
-    "Scholarship": "Shell Malaysia Scholarship",
+    "Scholarship": "Petronas Education Sponsorship Programme",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "46.02%",
-      "Raw_Score": 46.02175870692919,
+      "Success_Probability": "69.33%",
+      "Raw_Score": 69.33425710501332,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "6.48%",
-      "Raw_Score": 6.4842924924030285,
-      "Eligibility": "Ineligible"
-    },
-    "Average_Probability": "26.25%",
-    "Recommendation": "Recommended"
-  },
-  {
-    "Scholarship": "Yayasan Khazanah Scholarship",
-    "Level": "UG",
-    "Hybrid_Model": {
-      "Success_Probability": "41.64%",
-      "Raw_Score": 41.64267112361894,
+      "Success_Probability": "52.14%",
+      "Raw_Score": 52.144625130817616,
       "Eligibility": "Eligible"
     },
-    "Baseline_Model": {
-      "Success_Probability": "9.71%",
-      "Raw_Score": 9.707424852942076,
-      "Eligibility": "Ineligible"
-    },
-    "Average_Probability": "25.68%",
+    "Average_Probability": "60.74%",
     "Recommendation": "Recommended"
   }
 ]
