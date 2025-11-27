@@ -9,6 +9,8 @@ import numpy as np
 import os
 import sys
 import traceback
+import json
+from datetime import datetime
 
 # Add model_training directory to path for imports
 MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'model_training')
@@ -16,6 +18,12 @@ sys.path.insert(0, MODEL_DIR)
 
 # Add dataset directory for loading scholarships
 DATASET_DIR = os.path.join(os.path.dirname(__file__), '..', 'dataset')
+
+# Add output directory for saving predictions
+OUTPUT_DIR = os.path.join(os.path.dirname(__file__), '..', 'prediction_outputs')
+if not os.path.exists(OUTPUT_DIR):
+    os.makedirs(OUTPUT_DIR)
+    print(f"✅ Created output directory: {OUTPUT_DIR}")
 
 app = FastAPI(
     title="Scholarship System API",
@@ -105,6 +113,68 @@ class PredictionResponse(BaseModel):
     scholarships: List[ScholarshipProbability]
 
 
+def save_prediction_to_file(data: PredictionRequest, result: dict) -> str:
+    """
+    Save prediction results to a JSON file in the output directory.
+    Returns the file path where the prediction was saved.
+    """
+    try:
+        # Create timestamp for filename
+        timestamp = datetime.now().strftime("%Y%m%d_%H%M%S")
+        
+        # Create filename with student info
+        filename = f"prediction_{timestamp}.json"
+        filepath = os.path.join(OUTPUT_DIR, filename)
+        
+        # Prepare data to save
+        output_data = {
+            "timestamp": datetime.now().isoformat(),
+            "student_info": {
+                "age": data.age,
+                "race": data.race,
+                "field_of_study": data.field_of_study,
+                "household_income": data.household_income,
+                "education_levels": [
+                    {
+                        "level": edu.level,
+                        "spm_as": edu.spm_as,
+                        "cgpa": edu.cgpa,
+                        "alevel_stars": edu.alevel_stars
+                    }
+                    for edu in data.education_levels
+                ],
+                "curricular_items": [
+                    {
+                        "type": item.type,
+                        "club_name": item.club_name,
+                        "position_held": item.position_held,
+                        "activity_name": item.activity_name,
+                        "activity_level": item.activity_level
+                    }
+                    for item in data.curricular_items
+                ]
+            },
+            "prediction_results": {
+                "eligible": result.get("eligible"),
+                "confidence": result.get("confidence"),
+                "prediction_score": result.get("prediction_score"),
+                "eligibility_status": result.get("eligibility_status"),
+                "scholarships": result.get("scholarships", [])
+            }
+        }
+        
+        # Write to JSON file
+        with open(filepath, 'w', encoding='utf-8') as f:
+            json.dump(output_data, f, indent=2, ensure_ascii=False)
+        
+        print(f"✅ Prediction saved to: {filepath}")
+        return filepath
+        
+    except Exception as e:
+        print(f"⚠️ Error saving prediction to file: {e}")
+        return None
+
+
 def calculate_cocurricular_score(curricular_items: List[CurricularItem]) -> float:
     """
     Calculates co-curricular score (0-100) based on clubs and activities.
@@ -151,46 +221,18 @@ def calculate_cocurricular_score(curricular_items: List[CurricularItem]) -> floa
         if item.type == 'club':
             has_club = True
             if item.position_held:
-                unique_positions.add(item.position_held)
-                position_score = position_map.get(item.position_held, 5)
-                highest_position_score = max(highest_position_score, position_score)
+                position_score = position_map.get(item.position_held, 5)    
+                score += position_score
         elif item.type == 'activities':
             has_activity = True
             if item.activity_level:
-                unique_levels.add(item.activity_level)
                 activity_score = level_map.get(item.activity_level, 5)
-                highest_activity_score = max(highest_activity_score, activity_score)
-    
-    score += highest_position_score
-    score += highest_activity_score
-    
-    # Diversity Bonus (Max 15 points)
-    diversity_bonus = 0
-    if has_club and has_activity:
-        diversity_bonus += 10
-    if len(unique_positions) >= 2:
-        diversity_bonus += 3
-    if len(unique_levels) >= 2:
-        diversity_bonus += 3
-    
-    diversity_bonus = min(diversity_bonus, 15)
-    score += diversity_bonus
-    
-    # Quantity Bonus (Max 10 points)
-    num_items = len(curricular_items)
-    if num_items >= 5:
-        quantity_bonus = 10
-    elif num_items >= 4:
-        quantity_bonus = 8
-    elif num_items >= 3:
-        quantity_bonus = 6
-    elif num_items >= 2:
-        quantity_bonus = 4
+                score += activity_score     
+
+    if score > 100:
+        final_score = 100.0
     else:
-        quantity_bonus = 2
-    
-    score += quantity_bonus
-    final_score = min(100.0, round(score, 2))
+        final_score = score               
     
     return final_score
 
@@ -209,301 +251,123 @@ def predict_eligibility(data: PredictionRequest):
     """Predict scholarship eligibility using ML model (or dummy logic if model not available)"""
     
     try:
-        # STEP 1: Calculate Co-curricular Score
-        cocurricular_score = calculate_cocurricular_score(data.curricular_items)
-        print(f"📊 Calculated Co-curricular Score: {cocurricular_score}/100")
-        
-        # STEP 2: Extract Academic Information
+        # Dynamically import predict_with_both_models from predict_student.py
+        import importlib.util
+        predict_student_path = os.path.join(MODEL_DIR, "predict_student.py")
+        spec = importlib.util.spec_from_file_location("predict_student", predict_student_path)
+        predict_student = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(predict_student)
+        predict_with_both_models = predict_student.predict_with_both_models
+
+        # Prepare student_profile dict as in predict_student.py
+        # Extract academic info
         spm_data = next((edu for edu in data.education_levels if edu.level == 'SPM'), None)
-        if not spm_data:
-            raise HTTPException(status_code=400, detail="SPM result is required")
-        
-        spm_as = spm_data.spm_as
-        
-        # Find highest education level for CGPA/A-Level
-        cgpa = None
-        alevel_stars = None
-        highest_level = 'SPM'
-        academic_score = 0
-        
-        for edu in data.education_levels:
-            if edu.level == 'A Level' and edu.alevel_stars is not None:
-                alevel_stars = edu.alevel_stars
-                highest_level = 'A Level'
-            elif edu.level in ['STPM', 'Matriculation', 'Foundation', 'Undergraduate']:
-                if edu.cgpa is not None:
-                    if cgpa is None or edu.cgpa > cgpa:
-                        cgpa = edu.cgpa
-                        highest_level = edu.level
-        
-        print(f"📚 Academic Data - SPM: {spm_as} A's, Highest Level: {highest_level}, CGPA: {cgpa}, A-Level: {alevel_stars}")
-        
-        # STEP 3: Run Prediction Model
-        model_predictions_available = False
-        hybrid_predictions = None
-        baseline_predictions = None
-        eligible_scholarships = []
-        prediction_score = 0
-        prediction_class = 0
-        
-        if hybrid_model is not None and baseline_model is not None:
-            print("🤖 Using trained ML models for prediction...")
-            
-            try:
-                if df_scholarships is None:
-                    raise Exception("Scholarship data not loaded")
-                
-                # Get unique scholarships from loaded CSV data
-                unique_scholarships = df_scholarships[['Scholarship Name', 'Scholarship Level']].drop_duplicates().reset_index(drop=True)
-                num_scholarships = len(unique_scholarships)
-                print(f"📚 Loaded {num_scholarships} unique scholarships from dataset")
-                
-                # Prepare input features
-                student_data = {
-                    'Age': data.age,
-                    'Race': data.race,
-                    'Household Income': data.household_income,
-                    'SPM Result (As)': spm_as if spm_as else 0,
-                    'Co-curricular Score': cocurricular_score,
-                    'Field of Study': data.field_of_study,
-                    'STPM CGPA': cgpa if highest_level == 'STPM' else 0.0,
-                    'Matriculation CGPA': cgpa if highest_level == 'Matriculation' else 0.0,
-                    'Foundation CGPA': cgpa if highest_level == 'Foundation' else 0.0,
-                    'A-Level (As)': alevel_stars if alevel_stars else 0,
-                    'UG CGPA': cgpa if highest_level == 'Undergraduate' else 0.0
-                }
-                
-                # Calculate Unified CGPA
-                cgpa_sources = ['STPM CGPA', 'Matriculation CGPA', 'Foundation CGPA', 'UG CGPA']
-                cgpa_unified = max([student_data.get(src, 0) for src in cgpa_sources])
-                student_data['CGPA_Unified'] = cgpa_unified
-                
-                # Create DataFrame with repeated student data for each scholarship
-                test_df = pd.DataFrame([student_data] * num_scholarships).reset_index(drop=True)
-                
-                # Add scholarship information with proper index alignment
-                test_df['Applied Scholarship'] = unique_scholarships['Scholarship Name'].values
-                test_df['Scholarship Level'] = unique_scholarships['Scholarship Level'].values
-                
-                # Merge with scholarship details from CSV
-                test_merged = pd.merge(
-                    test_df,
-                    df_scholarships,
-                    left_on=['Applied Scholarship', 'Scholarship Level'],
-                    right_on=['Scholarship Name', 'Scholarship Level'],
-                    how='left',
-                    suffixes=('', '_csv')
-                )
-                
-                # Drop duplicate columns from CSV merge
-                cols_to_drop = [col for col in test_merged.columns if col.endswith('_csv')]
-                if cols_to_drop:
-                    test_merged = test_merged.drop(columns=cols_to_drop)
-                
-                print(f"🔍 Merged dataframe shape: {test_merged.shape}")
-                print(f"🔍 Merged columns: {list(test_merged.columns)}")
-                
-                # Import feature engineering functions
-                from gemini_train import apply_fuzzy_logic, add_engineered_features
-                
-                # Apply feature engineering
-                test_processed = apply_fuzzy_logic(test_merged.copy())
-                test_processed = add_engineered_features(test_processed.copy())
-                
-                print(f"🔍 Processed dataframe shape: {test_processed.shape}")
-                print(f"🔍 Processed columns: {list(test_processed.columns)}")
-                
-                if test_processed.empty:
-                    raise Exception("Processed data is empty after feature engineering")
-                
-                # Predict with both models
-                hybrid_predictions = np.clip(hybrid_model.predict(test_processed), 0, 100)
-                print(f"✅ Hybrid predictions: {len(hybrid_predictions)} predictions generated")
-                
-                baseline_predictions = np.clip(baseline_model.predict(test_processed), 0, 100)
-                print(f"✅ Baseline predictions: {len(baseline_predictions)} predictions generated")
-                
-                # Calculate average predictions for overall score
-                avg_predictions = (hybrid_predictions + baseline_predictions) / 2
-                
-                prediction_score = np.mean(avg_predictions) / 50  # Normalize to 0-2 scale
-                prediction_class = int(np.round(prediction_score).clip(0, 2))
-                
-                print(f"📊 Model Predictions - Hybrid Avg: {np.mean(hybrid_predictions):.2f}%, Baseline Avg: {np.mean(baseline_predictions):.2f}%")
-                print(f"📊 Overall Average: {np.mean(avg_predictions):.2f}%, Prediction Score: {prediction_score:.2f}")
-                
-                # Mark that model predictions are available
-                model_predictions_available = True
-                print("✅ Model predictions available = True")
-                
-                # Build eligible scholarships list from model predictions
-                bumiputera_races = ['Malay', 'Bumiputera', 'Bumiputera Sabah / Sarawak']
-                
-                for i, row in unique_scholarships.iterrows():
-                    scholarship_name = row['Scholarship Name']
-                    scholarship_level = row['Scholarship Level']
-                    
-                    # Get scholarship rules from CSV
-                    rule_rows = df_scholarships[
-                        (df_scholarships['Scholarship Name'] == scholarship_name) &
-                        (df_scholarships['Scholarship Level'] == scholarship_level)
-                    ]
-                    
-                    if rule_rows.empty:
-                        continue
-                    
-                    rule_row = rule_rows.iloc[0]
-                    is_bumi_only = rule_row.get('Bumiputera Only') == 'Yes'
-                    offered_fields = str(rule_row.get('Offered field of study', '')).split(', ')
-                    
-                    # Get predictions for this scholarship
-                    hybrid_prob = hybrid_predictions[i]
-                    baseline_prob = baseline_predictions[i]
-                    avg_prob = (hybrid_prob + baseline_prob) / 2
-                    
-                    # Check hard rules
-                    disqualified = False
-                    
-                    if is_bumi_only and (data.race not in bumiputera_races):
-                        disqualified = True
-                    
-                    if scholarship_level == 'PG' and (cgpa is None or highest_level != 'Undergraduate'):
-                        disqualified = True
-                    
-                    # Determine eligibility for each model (threshold: 40%)
-                    is_eligible_hybrid = (hybrid_prob >= 40) and (not disqualified)
-                    is_eligible_baseline = (baseline_prob >= 40) and (not disqualified)
-                    
-                    # RULE 1: Average Probability > 30%
-                    if avg_prob > 30:
-                        # RULE 2: At least one model must predict "Eligible"
-                        if is_eligible_hybrid or is_eligible_baseline:
-                            # RULE 3: Determine which model result to use
-                            if is_eligible_hybrid and is_eligible_baseline:
-                                chosen_model = "Hybrid" if hybrid_prob >= baseline_prob else "Baseline"
-                                chosen_prob = max(hybrid_prob, baseline_prob)
-                            elif is_eligible_hybrid:
-                                chosen_model = "Hybrid"
-                                chosen_prob = hybrid_prob
-                            else:
-                                chosen_model = "Baseline"
-                                chosen_prob = baseline_prob
-                            
-                            description = f"{scholarship_level} level scholarship"
-                            if offered_fields and offered_fields[0] != 'nan':
-                                description += f" for {', '.join(offered_fields[:3])}"
-                            
-                            eligible_scholarships.append({
-                                "name": scholarship_name,
-                                "level": scholarship_level,
-                                "probability": round(float(chosen_prob / 100), 4),
-                                "eligibility_status": "Eligible",
-                                "description": description,
-                                "hybrid_probability": f"{hybrid_prob:.2f}%",
-                                "baseline_probability": f"{baseline_prob:.2f}%",
-                                "average_probability": f"{avg_prob:.2f}%",
-                                "hybrid_eligibility": "Eligible" if is_eligible_hybrid else "Ineligible",
-                                "baseline_eligibility": "Eligible" if is_eligible_baseline else "Ineligible",
-                                "chosen_model": chosen_model
-                            })
-                
-                print(f"✅ Found {len(eligible_scholarships)} eligible scholarships")
-                
-            except Exception as e:
-                print(f"⚠️ Error during model prediction: {e}")
-                print(f"⚠️ Traceback: {traceback.format_exc()}")
-                print("⚠️ Falling back to dummy logic")
-                model_predictions_available = False
-        
-        # If no model predictions available, use dummy logic
-        if not model_predictions_available:
-            print("📋 Using dummy prediction logic...")
-            
-            score = 0
-            
-            # Academic performance contribution
-            if cgpa is not None:
-                if cgpa >= 3.7:
-                    academic_score = 0.8
-                elif cgpa >= 3.5:
-                    academic_score = 0.65
-                elif cgpa >= 3.0:
-                    academic_score = 0.5
-                elif cgpa >= 2.5:
-                    academic_score = 0.3
-                else:
-                    academic_score = 0.1
-            elif alevel_stars is not None:
-                if alevel_stars >= 4:
-                    academic_score = 0.8
-                elif alevel_stars >= 3:
-                    academic_score = 0.65
-                elif alevel_stars >= 2:
-                    academic_score = 0.5
-                elif alevel_stars >= 1:
-                    academic_score = 0.3
-                else:
-                    academic_score = 0.1
-            elif spm_as is not None:
-                if spm_as >= 10:
-                    academic_score = 0.8
-                elif spm_as >= 8:
-                    academic_score = 0.65
-                elif spm_as >= 6:
-                    academic_score = 0.5
-                elif spm_as >= 4:
-                    academic_score = 0.3
-                else:
-                    academic_score = 0.1
-            
-            score += academic_score
-            
-            # Co-curricular contribution
-            curricular_normalized = (cocurricular_score / 100) * 0.5
-            score += curricular_normalized
-            
-            # Income consideration
-            yearly_income = data.household_income
-            if yearly_income <= 36000:
-                score += 0.3
-            elif yearly_income <= 60000:
-                score += 0.2
-            elif yearly_income <= 96000:
-                score += 0.1
-            
-            # Level of study bonus
-            if highest_level in ['Undergraduate', 'Foundation']:
-                score += 0.2
-            elif highest_level in ['A Level', 'STPM', 'Matriculation']:
-                score += 0.15
-            else:
-                score += 0.1
-            
-            prediction_score = score * 2.0
-            prediction_class = int(np.round(prediction_score).clip(0, 2))
-        
-        # Map to eligibility status
-        eligibility_map = {0: 'Ineligible', 1: 'In Review', 2: 'Eligible'}
-        status = eligibility_map[prediction_class]
-        
-        # Calculate confidence
-        confidence = 1.0 - abs(prediction_score - prediction_class)
-        confidence = max(0.5, min(0.99, confidence))
-        
-        # Determine eligibility
-        is_eligible = prediction_class >= 1
-        
-        # Sort by probability
-        eligible_scholarships.sort(key=lambda x: x.get("probability", 0), reverse=True)
-        
-        return {
-            "eligible": is_eligible,
-            "confidence": float(confidence),
-            "prediction_score": float(prediction_score),
-            "eligibility_status": status,
-            "scholarships": eligible_scholarships
+        spm_as = spm_data.spm_as if spm_data and spm_data.spm_as is not None else 0
+        alevel_data = next((edu for edu in data.education_levels if edu.level == 'A Level'), None)
+        alevel_stars = alevel_data.alevel_stars if alevel_data and alevel_data.alevel_stars is not None else 0
+        stpm_cgpa = next((edu.cgpa for edu in data.education_levels if edu.level == 'STPM' and edu.cgpa is not None), 0.0)
+        matric_cgpa = next((edu.cgpa for edu in data.education_levels if edu.level == 'Matriculation' and edu.cgpa is not None), 0.0)
+        foundation_cgpa = next((edu.cgpa for edu in data.education_levels if edu.level == 'Foundation' and edu.cgpa is not None), 0.0)
+        ug_cgpa = next((edu.cgpa for edu in data.education_levels if edu.level == 'Undergraduate' and edu.cgpa is not None), 0.0)
+
+        # Calculate co-curricular score
+        cocurricular_score = calculate_cocurricular_score(data.curricular_items)
+
+        student_profile = {
+            'Age': data.age,
+            'Race': data.race,
+            'Household Income': data.household_income,
+            'SPM Result (As)': spm_as,
+            'Co-curricular Score': cocurricular_score,
+            'Field of Study': data.field_of_study,
+            'STPM CGPA': stpm_cgpa,
+            'Matriculation CGPA': matric_cgpa,
+            'Foundation CGPA': foundation_cgpa,
+            'A-Level (As)': alevel_stars,
+            'UG CGPA': ug_cgpa
         }
-        
+
+        # Call predict_with_both_models
+        results = predict_with_both_models(student_profile)
+
+        # Prepare API response (flatten for API) - Filter by average probability > 30%
+        scholarships = []
+        for res in results:
+            # Parse probabilities from strings
+            avg_prob_str = res["Average_Probability"].replace('%', '')
+            avg_prob = float(avg_prob_str)
+            
+            hybrid_prob_str = res["Hybrid_Model"]["Success_Probability"].replace('%', '')
+            hybrid_prob = float(hybrid_prob_str)
+            
+            baseline_prob_str = res["Baseline_Model"]["Success_Probability"].replace('%', '')
+            baseline_prob = float(baseline_prob_str)
+            
+            # Only include scholarships with average probability >= 30%
+            if avg_prob >= 30:
+                chosen_prob = hybrid_prob
+                chosen_model = "Hybrid"
+                # Determine eligibility status from both models
+                hybrid_eligible = res["Hybrid_Model"]["Eligibility"] == "Eligible"
+                baseline_eligible = res["Baseline_Model"]["Eligibility"] == "Eligible"
+                
+                # # Apply probability selection rules
+                # if hybrid_eligible and baseline_eligible:
+                #     # Both models mark as eligible - choose higher probability
+                #     chosen_prob = max(hybrid_prob, baseline_prob)
+                #     chosen_model = "Hybrid" if hybrid_prob >= baseline_prob else "Baseline"
+                # elif hybrid_eligible:
+                #     # Only Hybrid marks as eligible
+                #     chosen_prob = hybrid_prob
+                #     chosen_model = "Hybrid"
+                # elif baseline_eligible:
+                #     # Only Baseline marks as eligible
+                #     chosen_prob = baseline_prob
+                #     chosen_model = "Baseline"
+                # else:
+                #     # Neither marks as eligible but average >= 30%
+                #     # Use higher probability between the two
+                #     chosen_prob = max(hybrid_prob, baseline_prob)
+                #     chosen_model = "Hybrid" if hybrid_prob >= baseline_prob else "Baseline"
+                
+                scholarships.append({
+                    "name": res["Scholarship"],
+                    "probability": chosen_prob / 100.0,  # normalized
+                    "eligibility_status": "Eligible" if (hybrid_eligible or baseline_eligible) else "Ineligible",
+                    "description": f"{res['Level']} level scholarship",
+                    "hybrid_probability": res["Hybrid_Model"]["Success_Probability"],
+                    "hybrid_probability_value": hybrid_prob,
+                    "baseline_probability": res["Baseline_Model"]["Success_Probability"],
+                    "baseline_probability_value": baseline_prob,
+                    "average_probability": res["Average_Probability"],
+                    "average_probability_value": avg_prob,
+                    "hybrid_eligibility": res["Hybrid_Model"]["Eligibility"],
+                    "baseline_eligibility": res["Baseline_Model"]["Eligibility"],
+                    "chosen_probability": chosen_prob,
+                    "chosen_model": chosen_model,
+                    "recommendation": res["Recommendation"]
+                })
+
+        # Compute summary stats for API
+        eligible = len(scholarships) > 0
+        prediction_score = max([s["probability"] for s in scholarships], default=0)
+        confidence = 0.99 if eligible else 0.5
+        eligibility_status = "Eligible" if eligible else "Ineligible"
+
+        response = {
+            "eligible": eligible,
+            "confidence": confidence,
+            "prediction_score": prediction_score,
+            "eligibility_status": eligibility_status,
+            "scholarships": scholarships
+        }
+
+        # Save prediction to JSON file
+        saved_file = save_prediction_to_file(data, response)
+        if saved_file:
+            print(f"📁 Prediction output saved successfully")
+
+        return response
     except Exception as e:
         print(f"❌ Error in predict_eligibility: {e}")
         print(f"❌ Traceback: {traceback.format_exc()}")

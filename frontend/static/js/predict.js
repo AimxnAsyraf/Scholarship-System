@@ -367,20 +367,41 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
         const resultDiv = document.getElementById('result');
         
         if (response.ok) {
+            // Filter to show only eligible scholarships
+            const eligibleScholarships = result.scholarships.filter(s => s.eligibility_status === 'Eligible');
+
+            if (eligibleScholarships.length === 0) {
+                resultDiv.innerHTML = `
+                    <div class="prediction-result not-eligible">
+                        <h4 class="scholarships-title">No Eligible Scholarships Found</h4>
+                        <p class="scholarships-subtitle">Based on the criteria (average probability ≥ 30%), you are not currently eligible for any scholarships. Consider improving your academic performance or co-curricular activities.</p>
+                    </div>
+                `;
+                document.getElementById('result-modal').style.display = 'block';
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoader.style.display = 'none';
+                return;
+            }
+
             // Generate scholarship cards with probability bars
-            const scholarshipCards = result.scholarships.map(scholarship => {
+            const scholarshipCards = eligibleScholarships.map(scholarship => {
                 // Check if model predictions are available (hybrid and baseline probabilities)
                 const hasModelPredictions = scholarship.hybrid_probability && scholarship.baseline_probability;
+                
+                // Use chosen probability from backend
+                const chosenProb = scholarship.chosen_probability || (scholarship.probability * 100);
+                const chosenModel = scholarship.chosen_model || 'Unknown';
                 
                 // Generate model breakdown section if available
                 const modelBreakdown = hasModelPredictions ? `
                     <div class="model-breakdown">
-                        <div class="model-detail ${scholarship.chosen_model === 'Hybrid' ? 'chosen' : ''}">
+                        <div class="model-detail ${chosenModel === 'Hybrid' ? 'chosen' : ''}">
                             <span class="model-label">🤖 Hybrid Model:</span>
                             <span class="model-value">${scholarship.hybrid_probability}</span>
                             <span class="eligibility-badge ${scholarship.hybrid_eligibility === 'Eligible' ? 'eligible' : 'ineligible'}">${scholarship.hybrid_eligibility}</span>
                         </div>
-                        <div class="model-detail ${scholarship.chosen_model === 'Baseline' ? 'chosen' : ''}">
+                        <div class="model-detail ${chosenModel === 'Baseline' ? 'chosen' : ''}">
                             <span class="model-label">📊 Baseline Model:</span>
                             <span class="model-value">${scholarship.baseline_probability}</span>
                             <span class="eligibility-badge ${scholarship.baseline_eligibility === 'Eligible' ? 'eligible' : 'ineligible'}">${scholarship.baseline_eligibility}</span>
@@ -389,15 +410,15 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
                             <span class="model-label">📈 Average:</span>
                             <span class="model-value">${scholarship.average_probability}</span>
                         </div>
-                        ${scholarship.chosen_model ? `<div class="chosen-model-info">✨ Using <strong>${scholarship.chosen_model}</strong> model result</div>` : ''}
+                        <div class="chosen-model-info">✨ Using <strong>${chosenModel}</strong> model result (${chosenProb.toFixed(2)}%)</div>
                     </div>
                 ` : '';
                 
                 return `
-                    <div class="scholarship-probability-card ${hasModelPredictions ? 'with-model-predictions' : ''}">
+                    <div class="scholarship-probability-card with-model-predictions">
                         <div class="scholarship-header">
                             <h4>${scholarship.name}</h4>
-                            <span class="eligibility ${scholarship.eligibility_status === 'Eligible' ? 'eligible' : 'not-eligible'}">${scholarship.eligibility_status}</span>
+                            <span class="eligibility eligible">✓ Eligible</span>
                         </div>
                         
                         <p class="scholarship-description">${scholarship.description}</p>
@@ -406,34 +427,24 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
                         
                         <div class="probability-container">
                             <div class="probability-label">
-                                <span>${hasModelPredictions ? 'Average Success Probability' : 'Eligibility Probability'}</span>
-                                <span class="probability-value">${(scholarship.probability * 100).toFixed(1)}%</span>
+                                <span>Success Probability (from chosen model)</span>
+                                <span class="probability-value">${chosenProb.toFixed(2)}%</span>
                             </div>
                             <div class="probability-bar">
-                                <div class="probability-fill" style="width: ${(scholarship.probability * 100).toFixed(1)}%"></div>
+                                <div class="probability-fill" style="width: ${chosenProb.toFixed(2)}%"></div>
                             </div>
                         </div>
                     </div>
                 `;
             }).join('');
 
-            // Check if any scholarship has model predictions
-            const hasModelPredictions = result.scholarships.some(s => s.hybrid_probability);
-            const modelInfoBadge = hasModelPredictions ? 
-                '<span class="model-info-badge">🤖 AI Models Active</span>' : 
-                '<span class="model-info-badge dummy">📋 Rule-Based Logic</span>';
-
             resultDiv.innerHTML = `
-                <div class="prediction-result ${result.eligible ? 'eligible' : 'not-eligible'}">
+                <div class="prediction-result eligible">
                     <h4 class="scholarships-title">
-                        ${hasModelPredictions ? 
-                            'Matched Scholarships (Average Probability > 30%)' : 
-                            'Scholarship Eligibility Probabilities'}
+                        🎓 Eligible Scholarships Found (${eligibleScholarships.length})
                     </h4>
                     <p class="scholarships-subtitle">
-                        ${hasModelPredictions ? 
-                            'Based on predictions from both Hybrid (Fuzzy Logic + Gradient Boosting) and Baseline (Elastic Net) models' : 
-                            'Based on rule-based matching criteria'}
+                        Based on predictions from both Hybrid (Fuzzy Logic + Gradient Boosting) and Baseline (Elastic Net) models. Only scholarships with average probability ≥ 30% are shown.
                     </p>
                     <div class="scholarships-grid">
                         ${scholarshipCards}

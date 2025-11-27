@@ -2,6 +2,7 @@ import pandas as pd
 import numpy as np
 import joblib
 import json
+import os
 from gemini_train import (
     apply_fuzzy_logic, 
     add_engineered_features,
@@ -23,13 +24,16 @@ def predict_scholarship_match(student_profile, model_path='hybrid_model.pkl', us
         List of matched scholarships with success probabilities
     """
     
-    # Load the trained model
+    # Load the trained model using absolute path
+    model_dir = os.path.dirname(__file__)
     print(f"Loading model from {model_path}...")
     if use_hybrid:
-        model = joblib.load('hybrid_model.pkl')
+        model_file = os.path.join(model_dir, 'hybrid_model.pkl')
+        model = joblib.load(model_file)
         model_name = "Hybrid (Fuzzy Logic + Gradient Boosting)"
     else:
-        model = joblib.load('baseline_model.pkl')
+        model_file = os.path.join(model_dir, 'baseline_model.pkl')
+        model = joblib.load(model_file)
         model_name = "Baseline (Elastic Net)"
     print(f"✓ {model_name} model loaded successfully\n")
     
@@ -148,13 +152,14 @@ def predict_with_both_models(student_profile):
     print("LOADING BOTH MODELS FOR COMPARISON")
     print("="*60 + "\n")
     
-    # Load both models
-    hybrid_model = joblib.load('hybrid_model.pkl')
-    baseline_model = joblib.load('baseline_model.pkl')
+    # Load both models using absolute path
+    model_dir = os.path.dirname(__file__)
+    hybrid_model = joblib.load(os.path.join(model_dir, 'hybrid_model.pkl'))
+    baseline_model = joblib.load(os.path.join(model_dir, 'baseline_model.pkl'))
     print("✓ Both models loaded successfully\n")
     
     # Load scholarship data
-    _, df_scholarships = load_data('../dataset/FINAL_STUDENTS.csv', '../dataset/SCHOLARSHIPS.csv')
+    _, df_scholarships = load_data('../dataset/FINAL_STUDENTS.csv', '../dataset/SCHOLARSHIPS_2.csv')
     
     # Get all unique scholarships
     unique_scholarships = df_scholarships[['Scholarship Name', 'Scholarship Level']].drop_duplicates()
@@ -265,13 +270,13 @@ if __name__ == "__main__":
     # Example student profile
     new_student = {
         #Payload utk predict outcome
-        'Age': 19,
+        'Age': 18,
         'Race': 'Malay',
         'Household Income': 90000,
-        'SPM Result (As)': 10,
-        'Co-curricular Score': 100,
+        'SPM Result (As)': 1,
+        'Co-curricular Score': 60,
         'Field of Study': 'Engineering',
-        'STPM CGPA': 4.0,
+        'STPM CGPA': 0.0,
         'Matriculation CGPA': 0.0,
         'Foundation CGPA': 0.0,
         'A-Level (As)': 0,
