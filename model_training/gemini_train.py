@@ -71,6 +71,13 @@ def add_engineered_features(df):
     """Add additional engineered features for better model performance."""
     data = df.copy()
     
+    # Ensure numeric columns are properly typed to avoid string arithmetic issues
+    if 'Household Income' in data.columns:
+        data['Household Income'] = pd.to_numeric(data['Household Income'], errors='coerce').fillna(0.0)
+    if 'Household Income (Max Annual RM)' in data.columns:
+        data['Household Income (Max Annual RM)'] = pd.to_numeric(
+            data['Household Income (Max Annual RM)'], errors='coerce').fillna(0.0)
+
     # Academic Performance Score (weighted combination)
     data['Academic_Score'] = (
         data['SPM Result (As)'] * 0.3 +
@@ -86,7 +93,16 @@ def add_engineered_features(df):
     
     # Income to Scholarship Ratio (if scholarship max income exists)
     if 'Household Income (Max Annual RM)' in data.columns:
-        data['Income_Ratio'] = data['Household Income'] / (data['Household Income (Max Annual RM)'] + 1)
+        # Guard against division by zero and non-numeric types
+        try:
+            denom = data['Household Income (Max Annual RM)'].replace(0, np.nan)
+            # Add 1 to avoid zero-division where denom was zero; fillna to handle original zeros
+            data['Income_Ratio'] = data['Household Income'] / (denom + 1).fillna(1)
+            # Where denom was originally zero, fallback to Household Income (so ratio ~= income)
+            data['Income_Ratio'] = data['Income_Ratio'].fillna(data['Household Income'])
+        except Exception:
+            # Fallback: set ratio to 0 to avoid breaking pipeline
+            data['Income_Ratio'] = 0.0
     
     # Age Group Categories
     data['Age_Group'] = pd.cut(data['Age'], bins=[0, 18, 21, 25, 100], labels=['<18', '18-21', '21-25', '25+'])

@@ -267,14 +267,14 @@ if __name__ == "__main__":
         #Payload utk predict outcome
         'Age': 19,
         'Race': 'Malay',
-        'Household Income': 100000,
-        'SPM Result (As)': 8,
+        'Household Income': 90000,
+        'SPM Result (As)': 10,
         'Co-curricular Score': 100,
         'Field of Study': 'Engineering',
-        'STPM CGPA': 0.0,
+        'STPM CGPA': 4.0,
         'Matriculation CGPA': 0.0,
         'Foundation CGPA': 0.0,
-        'A-Level (As)': 4,
+        'A-Level (As)': 0,
         'UG CGPA': 0.0
     }
     

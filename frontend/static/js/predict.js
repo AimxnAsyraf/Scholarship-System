@@ -130,8 +130,8 @@ document.getElementById('add-cgpa-btn').addEventListener('click', function() {
 document.getElementById('add-alevel-btn').addEventListener('click', function() {
     const alevelStars = document.getElementById('alevel_stars').value.trim();
     
-    if (!alevelStars || alevelStars < 0 || alevelStars > 10) {
-        alert('Please enter a valid number of A* (0-10)');
+    if (!alevelStars || alevelStars < 0 || alevelStars > 4) {
+        alert('Please enter a valid number of A* (0-4)');
         return;
     }
     
@@ -293,10 +293,10 @@ function updateCurricularList() {
     curricularItems.forEach((item, index) => {
         const li = document.createElement('li');
         if (item.type === 'club') {
-            li.innerHTML = `<strong>Club:</strong> ${item.club_name} - ${item.position_held} 
+            li.innerHTML = `<strong>CLUB</strong> ${item.club_name}  (${item.position_held})
                 <button type="button" class="btn-remove" onclick="removeItem(${index})">Remove</button>`;
         } else {
-            li.innerHTML = `<strong>Activity:</strong> ${item.activity_name} (${item.activity_level}) 
+            li.innerHTML = `<strong>ACTIVITY</strong> ${item.activity_name} (${item.activity_level})
                 <button type="button" class="btn-remove" onclick="removeItem(${index})">Remove</button>`;
         }
         itemsList.appendChild(li);
@@ -313,8 +313,8 @@ function removeItem(index) {
 }
 
 document.getElementById('predict-form').addEventListener('submit', async (e) => {
-    e.preventDefault();
-    
+    e.preventDefault();    
+
     // Check if education levels have been added
     if (educationLevels.length === 0) {
         alert('Please add at least your SPM result to proceed');
@@ -350,7 +350,7 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
         household_income: parseFloat(document.getElementById('household_income').value),
         education_levels: educationLevels,  // Send all education levels
         curricular_items: curricularItems
-    };
+    };       
 
     try {
         //Load model api utk dptkan response drpd AI model

@@ -1,114 +1,130 @@
 [
   {
-    "Scholarship": "MARA Scholarship",
-    "Level": "UG",
-    "Hybrid_Model": {
-      "Success_Probability": "80.20%",
-      "Raw_Score": 80.19807705586653,
-      "Eligibility": "Eligible"
-    },
-    "Baseline_Model": {
-      "Success_Probability": "89.35%",
-      "Raw_Score": 89.35050002887792,
-      "Eligibility": "Eligible"
-    },
-    "Average_Probability": "84.77%",
-    "Recommendation": "Highly Recommended"
-  },
-  {
-    "Scholarship": "Yayasan Sime Darby Scholarship",
-    "Level": "UG",
-    "Hybrid_Model": {
-      "Success_Probability": "83.15%",
-      "Raw_Score": 83.15023624952876,
-      "Eligibility": "Eligible"
-    },
-    "Baseline_Model": {
-      "Success_Probability": "63.44%",
-      "Raw_Score": 63.44164077067367,
-      "Eligibility": "Eligible"
-    },
-    "Average_Probability": "73.30%",
-    "Recommendation": "Highly Recommended"
-  },
-  {
     "Scholarship": "Shell Malaysia Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "84.09%",
-      "Raw_Score": 84.08787021788551,
+      "Success_Probability": "100.00%",
+      "Raw_Score": 100.0,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "59.66%",
-      "Raw_Score": 59.65504164186561,
+      "Success_Probability": "60.31%",
+      "Raw_Score": 60.308221525165244,
       "Eligibility": "Eligible"
     },
-    "Average_Probability": "71.87%",
+    "Average_Probability": "80.15%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "MARA Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "88.94%",
+      "Raw_Score": 88.93847223657698,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "59.33%",
+      "Raw_Score": 59.332530872750425,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "74.14%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Gamuda Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "78.31%",
+      "Raw_Score": 78.30697737623814,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "49.13%",
+      "Raw_Score": 49.130095519918534,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "63.72%",
     "Recommendation": "Highly Recommended"
   },
   {
     "Scholarship": "Yayasan Khazanah Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "71.99%",
-      "Raw_Score": 71.98756478078788,
+      "Success_Probability": "75.05%",
+      "Raw_Score": 75.0521959882505,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "62.88%",
-      "Raw_Score": 62.878174002404634,
+      "Success_Probability": "50.55%",
+      "Raw_Score": 50.55447370477062,
       "Eligibility": "Eligible"
     },
-    "Average_Probability": "67.43%",
+    "Average_Probability": "62.80%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Petronas Education Sponsorship Programme",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "73.80%",
+      "Raw_Score": 73.80018782405988,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "49.27%",
+      "Raw_Score": 49.2722024214707,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "61.54%",
+    "Recommendation": "Highly Recommended"
+  },
+  {
+    "Scholarship": "Yayasan Sime Darby Scholarship",
+    "Level": "UG",
+    "Hybrid_Model": {
+      "Success_Probability": "71.26%",
+      "Raw_Score": 71.25822406799068,
+      "Eligibility": "Eligible"
+    },
+    "Baseline_Model": {
+      "Success_Probability": "49.56%",
+      "Raw_Score": 49.55771393829158,
+      "Eligibility": "Eligible"
+    },
+    "Average_Probability": "60.41%",
     "Recommendation": "Highly Recommended"
   },
   {
     "Scholarship": "Bank Negara Malaysia Kijang Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "69.69%",
-      "Raw_Score": 69.69174807132654,
+      "Success_Probability": "73.45%",
+      "Raw_Score": 73.45358895305894,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "63.63%",
-      "Raw_Score": 63.629716892363604,
+      "Success_Probability": "46.74%",
+      "Raw_Score": 46.74231317872111,
       "Eligibility": "Eligible"
     },
-    "Average_Probability": "66.66%",
-    "Recommendation": "Recommended"
+    "Average_Probability": "60.10%",
+    "Recommendation": "Highly Recommended"
   },
   {
-    "Scholarship": "Gamuda Scholarship",
+    "Scholarship": "JPA Scholarship",
     "Level": "UG",
     "Hybrid_Model": {
-      "Success_Probability": "69.66%",
-      "Raw_Score": 69.66317828749125,
+      "Success_Probability": "64.28%",
+      "Raw_Score": 64.2775846987314,
       "Eligibility": "Eligible"
     },
     "Baseline_Model": {
-      "Success_Probability": "54.16%",
-      "Raw_Score": 54.160420704255145,
-      "Eligibility": "Eligible"
+      "Success_Probability": "36.79%",
+      "Raw_Score": 36.788976175847345,
+      "Eligibility": "Ineligible"
     },
-    "Average_Probability": "61.91%",
-    "Recommendation": "Recommended"
-  },
-  {
-    "Scholarship": "Petronas Education Sponsorship Programme",
-    "Level": "UG",
-    "Hybrid_Model": {
-      "Success_Probability": "69.33%",
-      "Raw_Score": 69.33425710501332,
-      "Eligibility": "Eligible"
-    },
-    "Baseline_Model": {
-      "Success_Probability": "52.14%",
-      "Raw_Score": 52.144625130817616,
-      "Eligibility": "Eligible"
-    },
-    "Average_Probability": "60.74%",
+    "Average_Probability": "50.53%",
     "Recommendation": "Recommended"
   }
 ]
