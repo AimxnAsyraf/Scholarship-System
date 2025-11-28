@@ -1,0 +1,85 @@
+{
+  "timestamp": "2025-11-28T18:35:12.247530",
+  "student_info": {
+    "age": 18,
+    "race": "Malay",
+    "field_of_study": "Engineering",
+    "household_income": 90000.0,
+    "education_levels": [
+      {
+        "level": "SPM",
+        "spm_as": 9,
+        "cgpa": null,
+        "alevel_stars": null
+      }
+    ],
+    "curricular_items": [
+      {
+        "type": "club",
+        "club_name": "w",
+        "position_held": "President",
+        "activity_name": null,
+        "activity_level": null
+      }
+    ]
+  },
+  "prediction_results": {
+    "eligible": true,
+    "confidence": 0.99,
+    "prediction_score": 0.46259999999999996,
+    "eligibility_status": "Eligible",
+    "scholarships": [
+      {
+        "name": "MARA Scholarship",
+        "probability": 0.46259999999999996,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "46.26%",
+        "hybrid_probability_value": 46.26,
+        "baseline_probability": "53.41%",
+        "baseline_probability_value": 53.41,
+        "average_probability": "49.84%",
+        "average_probability_value": 49.84,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 46.26,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Bank Negara Malaysia Kijang Scholarship",
+        "probability": 0.44170000000000004,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "44.17%",
+        "hybrid_probability_value": 44.17,
+        "baseline_probability": "39.18%",
+        "baseline_probability_value": 39.18,
+        "average_probability": "41.68%",
+        "average_probability_value": 41.68,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Ineligible",
+        "chosen_probability": 44.17,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Petronas Education Sponsorship Programme",
+        "probability": 0.4121,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "41.21%",
+        "hybrid_probability_value": 41.21,
+        "baseline_probability": "38.80%",
+        "baseline_probability_value": 38.8,
+        "average_probability": "40.01%",
+        "average_probability_value": 40.01,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Ineligible",
+        "chosen_probability": 41.21,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      }
+    ]
+  }
+}

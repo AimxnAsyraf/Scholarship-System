@@ -1,0 +1,177 @@
+{
+  "timestamp": "2025-11-28T22:53:49.783642",
+  "student_info": {
+    "age": 18,
+    "race": "Malay",
+    "field_of_study": "Business and Finance",
+    "household_income": 24000.0,
+    "education_levels": [
+      {
+        "level": "SPM",
+        "spm_as": 10,
+        "cgpa": null,
+        "alevel_stars": null
+      }
+    ],
+    "curricular_items": [
+      {
+        "type": "club",
+        "club_name": "A",
+        "position_held": "President",
+        "activity_name": null,
+        "activity_level": null
+      },
+      {
+        "type": "club",
+        "club_name": "B",
+        "position_held": "President",
+        "activity_name": null,
+        "activity_level": null
+      }
+    ]
+  },
+  "prediction_results": {
+    "eligible": true,
+    "confidence": 0.99,
+    "prediction_score": 0.6727,
+    "eligibility_status": "Eligible",
+    "scholarships": [
+      {
+        "name": "MARA Scholarship",
+        "probability": 0.6727,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "67.27%",
+        "hybrid_probability_value": 67.27,
+        "baseline_probability": "83.24%",
+        "baseline_probability_value": 83.24,
+        "average_probability": "75.25%",
+        "average_probability_value": 75.25,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 67.27,
+        "chosen_model": "Hybrid",
+        "recommendation": "Highly Recommended"
+      },
+      {
+        "name": "Yayasan Sime Darby Scholarship",
+        "probability": 0.6114,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "61.14%",
+        "hybrid_probability_value": 61.14,
+        "baseline_probability": "64.07%",
+        "baseline_probability_value": 64.07,
+        "average_probability": "62.61%",
+        "average_probability_value": 62.61,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 61.14,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Bank Negara Malaysia Kijang Scholarship",
+        "probability": 0.6548,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "65.48%",
+        "hybrid_probability_value": 65.48,
+        "baseline_probability": "58.55%",
+        "baseline_probability_value": 58.55,
+        "average_probability": "62.01%",
+        "average_probability_value": 62.01,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 65.48,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Petronas Education Sponsorship Programme",
+        "probability": 0.6221,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "62.21%",
+        "hybrid_probability_value": 62.21,
+        "baseline_probability": "58.17%",
+        "baseline_probability_value": 58.17,
+        "average_probability": "60.19%",
+        "average_probability_value": 60.19,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 62.21,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Shell Malaysia Scholarship",
+        "probability": 0.5813,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "58.13%",
+        "hybrid_probability_value": 58.13,
+        "baseline_probability": "58.63%",
+        "baseline_probability_value": 58.63,
+        "average_probability": "58.38%",
+        "average_probability_value": 58.38,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 58.13,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Yayasan Khazanah Scholarship",
+        "probability": 0.5979,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "59.79%",
+        "hybrid_probability_value": 59.79,
+        "baseline_probability": "56.48%",
+        "baseline_probability_value": 56.48,
+        "average_probability": "58.14%",
+        "average_probability_value": 58.14,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 59.79,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Gamuda Scholarship",
+        "probability": 0.5829,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "58.29%",
+        "hybrid_probability_value": 58.29,
+        "baseline_probability": "52.21%",
+        "baseline_probability_value": 52.21,
+        "average_probability": "55.25%",
+        "average_probability_value": 55.25,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 58.29,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "JPA Scholarship",
+        "probability": 0.6076,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "60.76%",
+        "hybrid_probability_value": 60.76,
+        "baseline_probability": "49.46%",
+        "baseline_probability_value": 49.46,
+        "average_probability": "55.11%",
+        "average_probability_value": 55.11,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 60.76,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      }
+    ]
+  }
+}

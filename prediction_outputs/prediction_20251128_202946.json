@@ -1,0 +1,184 @@
+{
+  "timestamp": "2025-11-28T20:29:46.869485",
+  "student_info": {
+    "age": 18,
+    "race": "Malay",
+    "field_of_study": "Engineering",
+    "household_income": 36000.0,
+    "education_levels": [
+      {
+        "level": "SPM",
+        "spm_as": 8,
+        "cgpa": null,
+        "alevel_stars": null
+      }
+    ],
+    "curricular_items": [
+      {
+        "type": "club",
+        "club_name": "A",
+        "position_held": "Vice President",
+        "activity_name": null,
+        "activity_level": null
+      },
+      {
+        "type": "club",
+        "club_name": "A",
+        "position_held": "President",
+        "activity_name": null,
+        "activity_level": null
+      },
+      {
+        "type": "club",
+        "club_name": "C",
+        "position_held": "Member",
+        "activity_name": null,
+        "activity_level": null
+      }
+    ]
+  },
+  "prediction_results": {
+    "eligible": true,
+    "confidence": 0.99,
+    "prediction_score": 0.47409999999999997,
+    "eligibility_status": "Eligible",
+    "scholarships": [
+      {
+        "name": "MARA Scholarship",
+        "probability": 0.47200000000000003,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "47.20%",
+        "hybrid_probability_value": 47.2,
+        "baseline_probability": "80.70%",
+        "baseline_probability_value": 80.7,
+        "average_probability": "63.95%",
+        "average_probability_value": 63.95,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 47.2,
+        "chosen_model": "Hybrid",
+        "recommendation": "Highly Recommended"
+      },
+      {
+        "name": "Bank Negara Malaysia Kijang Scholarship",
+        "probability": 0.47409999999999997,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "47.41%",
+        "hybrid_probability_value": 47.41,
+        "baseline_probability": "57.92%",
+        "baseline_probability_value": 57.92,
+        "average_probability": "52.67%",
+        "average_probability_value": 52.67,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 47.41,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Petronas Education Sponsorship Programme",
+        "probability": 0.4497,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "44.97%",
+        "hybrid_probability_value": 44.97,
+        "baseline_probability": "57.53%",
+        "baseline_probability_value": 57.53,
+        "average_probability": "51.25%",
+        "average_probability_value": 51.25,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 44.97,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Shell Malaysia Scholarship",
+        "probability": 0.4296,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "42.96%",
+        "hybrid_probability_value": 42.96,
+        "baseline_probability": "57.99%",
+        "baseline_probability_value": 57.99,
+        "average_probability": "50.48%",
+        "average_probability_value": 50.48,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 42.96,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Yayasan Sime Darby Scholarship",
+        "probability": 0.3789,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "37.89%",
+        "hybrid_probability_value": 37.89,
+        "baseline_probability": "61.54%",
+        "baseline_probability_value": 61.54,
+        "average_probability": "49.71%",
+        "average_probability_value": 49.71,
+        "hybrid_eligibility": "Ineligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 37.89,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Yayasan Khazanah Scholarship",
+        "probability": 0.4203,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "42.03%",
+        "hybrid_probability_value": 42.03,
+        "baseline_probability": "55.85%",
+        "baseline_probability_value": 55.85,
+        "average_probability": "48.94%",
+        "average_probability_value": 48.94,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 42.03,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Gamuda Scholarship",
+        "probability": 0.41229999999999994,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "41.23%",
+        "hybrid_probability_value": 41.23,
+        "baseline_probability": "51.58%",
+        "baseline_probability_value": 51.58,
+        "average_probability": "46.41%",
+        "average_probability_value": 46.41,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 41.23,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "JPA Scholarship",
+        "probability": 0.1404,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "14.04%",
+        "hybrid_probability_value": 14.04,
+        "baseline_probability": "46.93%",
+        "baseline_probability_value": 46.93,
+        "average_probability": "30.49%",
+        "average_probability_value": 30.49,
+        "hybrid_eligibility": "Ineligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 14.04,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      }
+    ]
+  }
+}

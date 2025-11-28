@@ -1,0 +1,58 @@
+{
+  "timestamp": "2025-11-28T21:19:07.340571",
+  "student_info": {
+    "age": 19,
+    "race": "Malay",
+    "field_of_study": "Engineering",
+    "household_income": 60000.0,
+    "education_levels": [
+      {
+        "level": "SPM",
+        "spm_as": 8,
+        "cgpa": null,
+        "alevel_stars": null
+      }
+    ],
+    "curricular_items": [
+      {
+        "type": "club",
+        "club_name": "A",
+        "position_held": "Secretary",
+        "activity_name": null,
+        "activity_level": null
+      },
+      {
+        "type": "activities",
+        "club_name": null,
+        "position_held": null,
+        "activity_name": "B",
+        "activity_level": "State"
+      }
+    ]
+  },
+  "prediction_results": {
+    "eligible": true,
+    "confidence": 0.99,
+    "prediction_score": 0.45280000000000004,
+    "eligibility_status": "Eligible",
+    "scholarships": [
+      {
+        "name": "MARA Scholarship",
+        "probability": 0.45280000000000004,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "45.28%",
+        "hybrid_probability_value": 45.28,
+        "baseline_probability": "51.19%",
+        "baseline_probability_value": 51.19,
+        "average_probability": "48.23%",
+        "average_probability_value": 48.23,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 45.28,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      }
+    ]
+  }
+}

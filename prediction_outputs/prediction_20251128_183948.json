@@ -1,0 +1,75 @@
+{
+  "timestamp": "2025-11-28T18:39:48.057498",
+  "student_info": {
+    "age": 18,
+    "race": "Malay",
+    "field_of_study": "Engineering",
+    "household_income": 36000.0,
+    "education_levels": [
+      {
+        "level": "SPM",
+        "spm_as": 8,
+        "cgpa": null,
+        "alevel_stars": null
+      }
+    ],
+    "curricular_items": [
+      {
+        "type": "club",
+        "club_name": "A",
+        "position_held": "Vice President",
+        "activity_name": null,
+        "activity_level": null
+      },
+      {
+        "type": "activities",
+        "club_name": null,
+        "position_held": null,
+        "activity_name": "B",
+        "activity_level": "District"
+      }
+    ]
+  },
+  "prediction_results": {
+    "eligible": true,
+    "confidence": 0.99,
+    "prediction_score": 0.42840000000000006,
+    "eligibility_status": "Eligible",
+    "scholarships": [
+      {
+        "name": "MARA Scholarship",
+        "probability": 0.42840000000000006,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "42.84%",
+        "hybrid_probability_value": 42.84,
+        "baseline_probability": "59.23%",
+        "baseline_probability_value": 59.23,
+        "average_probability": "51.04%",
+        "average_probability_value": 51.04,
+        "hybrid_eligibility": "Eligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 42.84,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      },
+      {
+        "name": "Yayasan Sime Darby Scholarship",
+        "probability": 0.3042,
+        "eligibility_status": "Eligible",
+        "description": "UG level scholarship",
+        "hybrid_probability": "30.42%",
+        "hybrid_probability_value": 30.42,
+        "baseline_probability": "40.07%",
+        "baseline_probability_value": 40.07,
+        "average_probability": "35.24%",
+        "average_probability_value": 35.24,
+        "hybrid_eligibility": "Ineligible",
+        "baseline_eligibility": "Eligible",
+        "chosen_probability": 30.42,
+        "chosen_model": "Hybrid",
+        "recommendation": "Recommended"
+      }
+    ]
+  }
+}
