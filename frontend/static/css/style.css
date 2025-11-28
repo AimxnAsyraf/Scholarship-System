@@ -57,7 +57,7 @@ body {
 }
 
 .nav-links a:hover {
-    color: #3498db;
+    color: #8DD8FF;
 }
 
 /* Hero Section */
@@ -71,7 +71,7 @@ body {
 }
 
 .hero h2 {
-    font-size: 2.5rem;
+    font-size: 1.5rem;
     margin-bottom: 1rem;
 }
 
@@ -103,22 +103,22 @@ body {
 }
 
 .btn-primary {
-    background-color: #3498db;
+    background-color: #5409DA;
     color: white;
 }
 
 .btn-primary:hover {
-    background-color: #2980b9;
+    background-color: #4E71FF;
     transform: translateY(-2px);
 }
 
 .btn-secondary {
-    background-color: #2ecc71;
+    background-color: #5409DA;
     color: white;
 }
 
 .btn-secondary:hover {
-    background-color: #27ae60;
+    background-color: #4E71FF;
     transform: translateY(-2px);
 }
 
@@ -457,7 +457,7 @@ body {
 }
 
 .btn-secondary {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: #5409DA;
     color: white;
     padding: 0.6rem 1.2rem;
     border: none;
@@ -497,7 +497,7 @@ body {
 }
 
 .btn-primary {
-    background: linear-gradient(135deg, #3498db 0%, #2980b9 100%);
+    background: #5409DA;
     color: white;
     padding: 15px 40px;
     border: none;
@@ -508,8 +508,7 @@ body {
     width: 100%;
     margin-top: 1rem;
     transition: all 0.3s ease;
-    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);
-    text-transform: uppercase;
+    box-shadow: 0 6px 20px rgba(52, 152, 219, 0.3);    
     letter-spacing: 0.5px;
 }
 
@@ -1075,8 +1074,8 @@ body {
 /* ==================== HOME PAGE ENHANCEMENTS ==================== */
 
 /* Enhanced Navigation */
-.nav-links a.active {
-    color: #3498db;
+.nav-links a.active {    
+    color: #BBFBFF;
     position: relative;
     font-weight: 600;
 }
@@ -1088,13 +1087,14 @@ body {
     left: 0;
     right: 0;
     height: 2px;
-    background: linear-gradient(90deg, #3498db, #2ecc71);
+    background: linear-gradient(135deg, #5409DA 0%, #BBFBFF 100%);
     border-radius: 2px;
 }
 
 /* Enhanced Hero Section */
 .hero {
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(180deg, #5409DA 0%, #BBFBFF 100%);
+    /* background: linear-gradient(180deg, #00CAFF 0%, #00FFDE 100%); */
     color: white;
     padding: 5rem 2rem 4rem;
     text-align: center;
@@ -1125,6 +1125,7 @@ body {
 }
 
 .hero-title {
+    color: #F3F3E0;
     font-size: 3rem;
     margin-bottom: 1rem;
     font-weight: 700;
@@ -1133,9 +1134,9 @@ body {
 }
 
 .hero-subtitle {
-    font-size: 1.3rem;
+    font-size: 10px;
     margin-bottom: 2.5rem;
-    color: rgba(255, 255, 255, 0.95);
+    color: #213448;
     max-width: 700px;
     margin-left: auto;
     margin-right: auto;
@@ -1283,7 +1284,7 @@ body {
     display: flex;
     align-items: center;
     justify-content: center;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background: linear-gradient(135deg, #5409DA 0%, #BBFBFF 100%);
     border-radius: 50%;
     margin-bottom: 1.5rem;
     animation: bounce 2s ease-in-out infinite;
@@ -1363,7 +1364,7 @@ footer {
     }
 
     .hero-subtitle {
-        font-size: 1rem;
+        font-size: 10px;
     }
 
     .cta-buttons {

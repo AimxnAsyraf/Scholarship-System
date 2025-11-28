@@ -12,6 +12,9 @@ import traceback
 import json
 from datetime import datetime
 
+# FastAPI static files for serving frontend assets
+from fastapi.staticfiles import StaticFiles
+
 # Add model_training directory to path for imports
 MODEL_DIR = os.path.join(os.path.dirname(__file__), '..', 'model_training')
 sys.path.insert(0, MODEL_DIR)
@@ -30,6 +33,14 @@ app = FastAPI(
     description="API for managing scholarship applications and predictions",
     version="1.0.0"
 )
+
+# Mount static files for frontend (css, js, assets)
+import pathlib
+FRONTEND_STATIC_DIR = os.path.join(os.path.dirname(__file__), '..', 'frontend', 'static')
+if os.path.exists(FRONTEND_STATIC_DIR):
+    app.mount("/static", StaticFiles(directory=FRONTEND_STATIC_DIR), name="static")
+else:
+    print(f"⚠️ Static directory not found at {FRONTEND_STATIC_DIR}")
 
 # Load ML Models (Both Hybrid and Baseline)
 HYBRID_MODEL_PATH = os.path.join(MODEL_DIR, 'hybrid_model.pkl')

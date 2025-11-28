@@ -4,14 +4,18 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">    
     <title>Scholarship Eligibility</title>
-    <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 100 100%22><text y=%22.9em%22 font-size=%2290%22>🎓</text></svg>">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='assets/mortarboard-fill.svg') }}">
     <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 </head>
 <body>
     <!-- Navigation Bar -->
     <nav class="navbar">
         <div class="container">
-            <h1 class="logo">🎓 Scholarship System</h1>
+            <div style="display: flex; align-items: center;">
+                <img src="{{ url_for('static', filename='assets/mortarboard-fill.svg') }}" alt="Logo" width="32" height="32" style="margin-right: 12px;">
+                <h1 class="logo" style="margin: 0;">Scholarship System</h1>
+            </div>
             <ul class="nav-links">
                 <li><a href="/" class="active">Home</a></li>
                 <li><a href="/predict">Check Eligibility</a></li>
@@ -22,13 +26,14 @@
     <main class="container">
         <section class="hero">
             <div class="hero-content">
-                <h2 class="hero-title">Find Scholarships that Eligible for You</h2>
-                <p class="hero-subtitle">Discover eligible scholarships and get AI-powered probability predictions tailored to your profile</p>
+                <h1 class="hero-title">Find Scholarships that Eligible for You</h1>
+                <h2 class="hero-subtitle">Discover eligible scholarships and get AI-powered probability predictions tailored to your profile</h2>
                 <div class="cta-buttons">
-                    <a href="/predict" class="btn btn-primary btn-large">
+                    <a href="/predict" class="btn btn-secondary btn-large">
                         <span>Check Eligibility</span>
                     </a>
                     <a href="#how-it-works" class="btn btn-secondary btn-large">
+                        <img src="{{ url_for('static', filename='assets/info-circle-fill.svg') }}" alt="Logo" width="20" style="margin-right: 10px;">
                         <span> Learn More</span>
                     </a>
                 </div>
@@ -41,22 +46,25 @@
             
             <div class="features-grid">
                 <div class="feature-card">
-                    <div class="feature-icon">📝</div>
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='assets/person-lines-fill.svg') }}" alt="Logo" width="50" style="color: white;">                        
+                    </div>
                     <h3>Fill Your Profile</h3>
-                    <p>Enter your academic performance, background information, and extracurricular activities</p>
-                    <div class="feature-number">01</div>
+                    <p>Enter your academic performance, background information, and extracurricular activities</p>                    
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">🤖</div>
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='assets/robot.svg') }}" alt="Logo" width="50" style="color: white;">                        
+                    </div>
                     <h3>AI Analysis</h3>
-                    <p>Our advanced AI system analyzes your profile against multiple scholarship criteria</p>
-                    <div class="feature-number">02</div>
+                    <p>Our advanced AI system analyzes your profile against multiple scholarship criteria</p>                    
                 </div>
                 <div class="feature-card">
-                    <div class="feature-icon">📊</div>
+                    <div class="feature-icon">
+                        <img src="{{ url_for('static', filename='assets/file-earmark-bar-graph.svg') }}" alt="Logo" width="50" style="color: white;">                        
+                    </div>
                     <h3>Get Results</h3>
-                    <p>Receive detailed eligibility status and probability scores for each scholarship</p>
-                    <div class="feature-number">03</div>
+                    <p>Receive detailed eligibility status and probability scores for each scholarship</p>                    
                 </div>
             </div>
         </section>
@@ -64,8 +72,8 @@
 
     <footer>
         <div class="footer-content">
-            <p>🤖 AI-Powered Scholarship Eligibility System</p>
-            <p class="footer-subtitle">AI Project 2025 | Making Education Accessible</p>
+            <p>Scholarship Eligibility System</p>
+            <p class="footer-subtitle">AI Project 2025</p>
         </div>
     </footer>
 
