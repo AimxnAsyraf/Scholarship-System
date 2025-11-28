@@ -427,7 +427,8 @@ document.getElementById('predict-form').addEventListener('submit', async (e) => 
                         
                         <div class="probability-container">
                             <div class="probability-label">
-                                <span>Success Probability (from chosen model)</span>
+                                <span>Success Probability
+                                </span>
                                 <span class="probability-value">${chosenProb.toFixed(2)}%</span>
                             </div>
                             <div class="probability-bar">

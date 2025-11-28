@@ -21,41 +21,40 @@ warnings.filterwarnings('ignore')
 # 1. Fuzzy Logic Helper Functions
 # ==========================================
 def triangular_membership(x, a, b, c):
-    """Calculates triangular membership degree."""
+    """Calculates degree untuk triangular membership"""
     term1 = (x - a) / (b - a + 1e-6)
     term2 = (c - x) / (c - b + 1e-6)
     return np.maximum(0, np.minimum(term1, term2))
 
 def trapezoidal_membership(x, a, b, c, d):
-    """Calculates trapezoidal membership degree."""
+    """Calculates degree untuk trapezoidal membership"""
     term1 = (x - a) / (b - a + 1e-6)
     term2 = (d - x) / (d - c + 1e-6)
     return np.maximum(0, np.minimum(np.minimum(term1, 1), term2))
 
+#Declare setiap column yang nak guna fuzzy logic untuk numerical features
 def apply_fuzzy_logic(df):
     """Applies fuzzy logic transformation."""
     data = df.copy()
     
-    # --- Income ---
+    # --- Column Income ---
     data['Fuzzy_Income_Low'] = triangular_membership(data['Household Income'], -1, 0, 12000)  #Min: 12000
     data['Fuzzy_Income_Med'] = triangular_membership(data['Household Income'], 6000, 12000, 70000) #Med: 70000
     data['Fuzzy_Income_High'] = trapezoidal_membership(data['Household Income'], 12000, 27000, 280000, 290000) #Max: 290000
     
-    # --- SPM (Number of As) ---
+    # --- Column SPM (Number of As) ---
     data['Fuzzy_SPM_Low'] = triangular_membership(data['SPM Result (As)'], -1, 0, 6) #Min: 4
     data['Fuzzy_SPM_Med'] = triangular_membership(data['SPM Result (As)'], 3, 7, 10) #Med:6
     data['Fuzzy_SPM_High'] = trapezoidal_membership(data['SPM Result (As)'], 7, 10, 12, 15) #Max: 15
     
     # --- Unified CGPA Foundation, Undergraduate, STPM, Matriculation ---
-    # This avoids the "Zero Problem" where missing STPM is seen as "Low Score"
+    # Kenapa unified? Klu user masukkan semua amik highest je between 3 je
     col = 'CGPA_Unified'
     data['Fuzzy_CGPA_Low'] = trapezoidal_membership(data[col], -1, 0.0, 2.5, 3.0)
     data['Fuzzy_CGPA_Med'] = triangular_membership(data[col], 2.5, 3.0, 3.5)
     data['Fuzzy_CGPA_High'] = trapezoidal_membership(data[col], 3.3, 3.75, 4.0, 5.0)
 
     # --- A-Level (Separate, but handled carefully) ---
-    # We MASK zeros so they don't count as "Low"
-    # alevel_mask = (data['A-Level (As)'] > 0).astype(int)
     data['Fuzzy_ALevel_Low'] = triangular_membership(data['A-Level (As)'], -1, 0, 2) #Min: 2
     data['Fuzzy_ALevel_Med'] = triangular_membership(data['A-Level (As)'], 1, 2, 3) #Med: 3
     data['Fuzzy_ALevel_High'] = trapezoidal_membership(data['A-Level (As)'], 2, 3, 4, 5) #Max: 4
@@ -241,6 +240,7 @@ if __name__ == "__main__":
     print("TRAINING MODEL 1: HYBRID (Fuzzy Logic + Gradient Boosting)")
     print("="*60)
     
+    #Kt sini buat pipeline gabungkan Fuzzy Logic dgn Gradient Boosting Regression
     preprocessor_hybrid = ColumnTransformer(transformers=[
         ('num', StandardScaler(), numeric_features_m1),
         ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_features),
@@ -283,6 +283,7 @@ if __name__ == "__main__":
     print("TRAINING MODEL 2: BASELINE (Elastic Net Regression)")
     print("="*60)
     
+    #Kt sini buat pipeline untuk Elastic Net Regression
     preprocessor_baseline = ColumnTransformer(transformers=[
         ('num', StandardScaler(), numeric_features_m2),
         ('cat', OneHotEncoder(handle_unknown='ignore', sparse_output=False), categorical_features)])
